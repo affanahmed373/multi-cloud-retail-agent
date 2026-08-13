@@ -1,0 +1,14 @@
+# Core
+fastapi
+uvicorn
+pydantic
+python-dotenv
+
+# Local RAG
+rank-bm25
+
+# AWS (for Bedrock later)
+boto3
+
+# GCP (for Vertex later)
+google-cloud-aiplatform
