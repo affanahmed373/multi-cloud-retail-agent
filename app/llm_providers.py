@@ -113,7 +113,7 @@ class BedrockLLMProvider(LLMProvider):
     def __init__(
         self,
         model_id: str = "anthropic.claude-3-haiku-20240307-v1:0",
-        region_name: str = "us-east-1",
+        region_name: str = "eu-central-1",
     ) -> None:
         self.model_id = model_id
         self.region_name = region_name
@@ -146,7 +146,7 @@ class VertexLLMProvider(LLMProvider):
         self,
         model_name: str = "gemini-1.5-flash",
         project_id: Optional[str] = None,
-        location: str = "us-central1",
+        location: str = "europe-west3",
     ) -> None:
         self.model_name = model_name
         self.project_id = project_id

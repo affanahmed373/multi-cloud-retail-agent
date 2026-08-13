@@ -24,12 +24,14 @@ class Config:
     BEDROCK_MODEL_ID: str = os.getenv(
         "BEDROCK_MODEL_ID", "anthropic.claude-3-haiku-20240307-v1:0"
     )
-    BEDROCK_REGION: str = os.getenv("BEDROCK_REGION", "us-east-1")
+    # Frankfurt — nearest AWS region to Duisburg
+    BEDROCK_REGION: str = os.getenv("BEDROCK_REGION", "eu-central-1")
 
     # GCP Vertex AI settings
     VERTEX_MODEL_NAME: str = os.getenv("VERTEX_MODEL_NAME", "gemini-1.5-flash")
     VERTEX_PROJECT_ID: Optional[str] = os.getenv("VERTEX_PROJECT_ID")
-    VERTEX_LOCATION: str = os.getenv("VERTEX_LOCATION", "us-central1")
+    # Frankfurt — nearest GCP region to Duisburg
+    VERTEX_LOCATION: str = os.getenv("VERTEX_LOCATION", "europe-west3")
 
     # Data paths
     PRODUCTS_PATH: str = os.getenv("PRODUCTS_PATH", "data/products.json")
