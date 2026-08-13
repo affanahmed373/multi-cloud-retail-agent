@@ -1,0 +1,305 @@
+[
+  {
+    "id": "q001",
+    "question": "Do you ship to Berlin? How long does delivery take?",
+    "expected_answer": "Yes, we ship all over Germany including Berlin. Standard delivery takes 3–5 business days. Express shipping (1–2 days) is available at checkout for an extra fee.",
+    "source_type": "policy",
+    "source_ids": [
+      "shipping_policy"
+    ],
+    "required_facts": [
+      "ships_to_berlin",
+      "standard_delivery_3_5_days",
+      "express_available"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q002",
+    "question": "What is your return policy? Can I return items if they don't fit?",
+    "expected_answer": "Yes, you can return items within 14 days of delivery as long as they are in original, unworn condition with tags attached. We offer refunds or exchanges.",
+    "source_type": "policy",
+    "source_ids": [
+      "returns_policy"
+    ],
+    "required_facts": [
+      "return_window_14_days",
+      "original_condition_required",
+      "refund_or_exchange"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q003",
+    "question": "Do you offer international shipping outside Germany?",
+    "expected_answer": "Yes, we ship to many EU countries and selected international destinations. Shipping costs and delivery times vary by country and are shown at checkout.",
+    "source_type": "policy",
+    "source_ids": [
+      "shipping_policy"
+    ],
+    "required_facts": [
+      "ships_outside_germany",
+      "eu_and_international",
+      "costs_shown_at_checkout"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q004",
+    "question": "How can I find my correct size? Do you have a size guide?",
+    "expected_answer": "Yes, we provide a detailed size guide with measurements for each product. You can find it on each product page under 'Size Guide'. We recommend measuring yourself and comparing with the chart.",
+    "source_type": "policy",
+    "source_ids": [
+      "size_guide_policy"
+    ],
+    "required_facts": [
+      "size_guide_available",
+      "on_product_page",
+      "measure_and_compare"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q005",
+    "question": "What payment methods do you accept?",
+    "expected_answer": "We accept major credit cards (Visa, Mastercard), PayPal, and bank transfer. All payments are processed securely.",
+    "source_type": "policy",
+    "source_ids": [
+      "payment_policy"
+    ],
+    "required_facts": [
+      "credit_cards_accepted",
+      "paypal_accepted",
+      "bank_transfer_accepted"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q006",
+    "question": "I need something for a summer wedding. What do you recommend?",
+    "expected_answer": "For a summer wedding, we recommend our lightweight lawn suits, pastel kurtas, or formal waistcoat sets in breathable fabrics. Items like the Pastel Pink Kurta or Navy Blue Waistcoat Set work well, depending on whether you want casual or formal.",
+    "source_type": "recommendation",
+    "source_ids": [
+      "products"
+    ],
+    "required_facts": [
+      "summer_wedding_suitable",
+      "lightweight_fabric",
+      "formal_or_semi_formal"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "q007",
+    "question": "Do you have plus sizes or XXL options?",
+    "expected_answer": "Yes, several of our items are available in XXL, such as the Navy Blue Waistcoat Set and Charcoal Grey Kurta Pajama. Please check the size options on each product page.",
+    "source_type": "inventory",
+    "source_ids": [
+      "products"
+    ],
+    "required_facts": [
+      "xxl_available",
+      "specific_items_have_xxl"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q008",
+    "question": "Are your outfits suitable for Eid celebrations?",
+    "expected_answer": "Yes, many of our outfits are perfect for Eid, including embroidered shalwar kameez, formal waistcoat sets, and bridal/lehenga pieces. We also have festive shawls and accessories.",
+    "source_type": "recommendation",
+    "source_ids": [
+      "products"
+    ],
+    "required_facts": [
+      "eid_suitable",
+      "festive_items_available"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q009",
+    "question": "Do you have the Embroidered Black Shalwar Kameez in size M?",
+    "expected_answer": "Yes, the Embroidered Black Shalwar Kameez (SK-002) is available in size M, but stock is limited. It is currently out of stock in size L.",
+    "source_type": "inventory",
+    "source_ids": [
+      "SK-002"
+    ],
+    "required_facts": [
+      "sk002_exists",
+      "size_m_available",
+      "size_l_out_of_stock"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q010",
+    "question": "Which shalwar kameez do you have in white?",
+    "expected_answer": "We have the Classic White Shalwar Kameez (SK-001) in white and off-white. It is available in sizes S, M, L, and XL.",
+    "source_type": "inventory",
+    "source_ids": [
+      "SK-001"
+    ],
+    "required_facts": [
+      "sk001_white_available",
+      "sizes_s_m_l_xl"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q011",
+    "question": "Is the Green Printed Lawn Suit available in size S?",
+    "expected_answer": "No, the Green Printed Lawn Suit (SK-006) is currently out of stock in size S. It is available in sizes M and L.",
+    "source_type": "inventory",
+    "source_ids": [
+      "SK-006"
+    ],
+    "required_facts": [
+      "sk006_exists",
+      "size_s_out_of_stock",
+      "sizes_m_l_available"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q012",
+    "question": "What is the most expensive item you have?",
+    "expected_answer": "Our most expensive item is the Beige Bridal Lehenga (SK-007) at 249 EUR. It is a silk lehenga with heavy embroidery, suitable for bridal and wedding occasions.",
+    "source_type": "inventory",
+    "source_ids": [
+      "SK-007"
+    ],
+    "required_facts": [
+      "sk007_most_expensive",
+      "price_249_eur",
+      "bridal_wedding_occasion"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "q013",
+    "question": "I am looking for something casual for everyday wear under 55 EUR. What do you have?",
+    "expected_answer": "For casual everyday wear under 55 EUR, good options include the Classic White Shalwar Kameez (49.9 EUR), Pastel Pink Kurta (45 EUR), and Charcoal Grey Kurta Pajama (52 EUR).",
+    "source_type": "recommendation",
+    "source_ids": [
+      "SK-001",
+      "SK-003",
+      "SK-008"
+    ],
+    "required_facts": [
+      "casual_everyday",
+      "price_under_55",
+      "specific_items_mentioned"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "q014",
+    "question": "Do you have any wool or warm items for winter?",
+    "expected_answer": "Yes, for winter we have the Maroon Shawl with Gold Border (SK-005), which is a wool blend shawl. It is warm and suitable for winter evenings and festive occasions.",
+    "source_type": "inventory",
+    "source_ids": [
+      "SK-005"
+    ],
+    "required_facts": [
+      "wool_blend_available",
+      "winter_suitable",
+      "sk005_shawl"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "q015",
+    "question": "Which items are good for formal events or weddings?",
+    "expected_answer": "For formal events and weddings, we recommend the Navy Blue Waistcoat Set (SK-004) and the Beige Bridal Lehenga (SK-007). Both are designed for formal and wedding occasions.",
+    "source_type": "recommendation",
+    "source_ids": [
+      "SK-004",
+      "SK-007"
+    ],
+    "required_facts": [
+      "formal_wedding_suitable",
+      "sk004_waistcoat",
+      "sk007_lehenga"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "q016",
+    "question": "I need a black outfit for an evening event, but I wear size L. What can you offer?",
+    "expected_answer": "For a black evening outfit in size L, the Embroidered Black Shalwar Kameez (SK-002) would be ideal, but it is currently out of stock in size L. As an alternative, you could consider the Charcoal Grey Kurta Pajama (SK-008) in size L, which is available and suitable for semi-formal evenings.",
+    "source_type": "recommendation",
+    "source_ids": [
+      "SK-002",
+      "SK-008"
+    ],
+    "required_facts": [
+      "black_evening_need",
+      "sk002_l_out_of_stock",
+      "alternative_sk008_l_available"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": "q017",
+    "question": "I want to buy a gift for a friend who likes pastel colors and casual styles. What do you suggest?",
+    "expected_answer": "For someone who likes pastel colors and casual styles, the Pastel Pink Kurta (SK-003) is a great choice. It is a light, breathable linen blend kurta in pastel pink, perfect for casual summer wear.",
+    "source_type": "recommendation",
+    "source_ids": [
+      "SK-003"
+    ],
+    "required_facts": [
+      "pastel_preference",
+      "casual_style",
+      "sk003_recommended"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "q018",
+    "question": "Are there any items that are currently out of stock in some sizes but available in others?",
+    "expected_answer": "Yes, several items have partial stock. For example, the Embroidered Black Shalwar Kameez (SK-002) is out of stock in size L but available in S and M. The Green Printed Lawn Suit (SK-006) is out of stock in size S but available in M and L.",
+    "source_type": "inventory",
+    "source_ids": [
+      "SK-002",
+      "SK-006"
+    ],
+    "required_facts": [
+      "partial_stock_exists",
+      "sk002_l_out",
+      "sk006_s_out"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "q019",
+    "question": "I have a budget of 80 EUR and need something formal. What are my options?",
+    "expected_answer": "With a budget of 80 EUR for something formal, your best option is the Navy Blue Waistcoat Set (SK-004) at 79.9 EUR. It is a formal cotton blend set suitable for weddings and formal events.",
+    "source_type": "recommendation",
+    "source_ids": [
+      "SK-004"
+    ],
+    "required_facts": [
+      "budget_80_eur",
+      "formal_requirement",
+      "sk004_within_budget"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "q020",
+    "question": "Which items are suitable for both casual and festive occasions?",
+    "expected_answer": "Items that work for both casual and festive occasions include the Classic White Shalwar Kameez (SK-001) for everyday and simple festive events, and the Maroon Shawl with Gold Border (SK-005) which can add a festive touch to casual outfits.",
+    "source_type": "recommendation",
+    "source_ids": [
+      "SK-001",
+      "SK-005"
+    ],
+    "required_facts": [
+      "casual_and_festive",
+      "sk001_versatile",
+      "sk005_festive_accessory"
+    ],
+    "difficulty": "medium"
+  }
+]

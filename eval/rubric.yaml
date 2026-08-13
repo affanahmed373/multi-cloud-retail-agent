@@ -1,0 +1,35 @@
+dimensions:
+  - name: correctness
+    description: "Factual accuracy of the answer."
+    scale:
+      1: "Mostly incorrect or misleading."
+      3: "Partially correct, some key facts wrong or missing."
+      5: "Fully correct, no factual errors."
+
+  - name: groundedness
+    description: "Whether every claim is supported by the provided context (policies, product info, inventory)."
+    scale:
+      1: "Many claims not supported by context (hallucinations)."
+      3: "Some unsupported claims, but core info is grounded."
+      5: "All claims are supported by the context."
+
+  - name: completeness
+    description: "Does the answer address all parts of the question?"
+    scale:
+      1: "Misses most of the question."
+      3: "Addresses main point but misses important details."
+      5: "Fully addresses all parts of the question."
+
+  - name: helpfulness
+    description: "How actionable and useful is the answer for the user?"
+    scale:
+      1: "Not actionable, vague."
+      3: "Somewhat helpful, but user still unsure what to do."
+      5: "Clear, actionable, and directly useful."
+
+  - name: tone
+    description: "Politeness, friendliness, and brand fit for a small boutique."
+    scale:
+      1: "Rude, robotic, or off-brand."
+      3: "Neutral, acceptable but not warm."
+      5: "Friendly, polite, fits a small boutique."

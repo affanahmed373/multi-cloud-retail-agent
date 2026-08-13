@@ -1,0 +1,220 @@
+[
+  {
+    "sku": "SK-001",
+    "name": "Classic White Shalwar Kameez",
+    "category": "shalwar_kameez",
+    "fabric": "Cotton lawn",
+    "colors": [
+      "white",
+      "off-white"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 49.9,
+    "stock": {
+      "S": 8,
+      "M": 12,
+      "L": 5,
+      "XL": 3
+    },
+    "care_instructions": "Machine wash cold, do not bleach, iron on low heat.",
+    "occasion": [
+      "casual",
+      "everyday"
+    ],
+    "short_description": "Comfortable everyday shalwar kameez in breathable cotton lawn."
+  },
+  {
+    "sku": "SK-002",
+    "name": "Embroidered Black Shalwar Kameez",
+    "category": "shalwar_kameez",
+    "fabric": "Cotton with embroidery",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 69.9,
+    "stock": {
+      "S": 4,
+      "M": 2,
+      "L": 0
+    },
+    "care_instructions": "Hand wash recommended, do not wring, dry in shade.",
+    "occasion": [
+      "festive",
+      "evening"
+    ],
+    "short_description": "Elegant black shalwar kameez with delicate embroidery, perfect for evenings."
+  },
+  {
+    "sku": "SK-003",
+    "name": "Pastel Pink Kurta",
+    "category": "kurta",
+    "fabric": "Linen blend",
+    "colors": [
+      "pink",
+      "pastel"
+    ],
+    "sizes": [
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 45.0,
+    "stock": {
+      "M": 6,
+      "L": 9,
+      "XL": 7
+    },
+    "care_instructions": "Machine wash gentle, iron medium heat.",
+    "occasion": [
+      "casual",
+      "summer"
+    ],
+    "short_description": "Light pastel pink kurta in breathable linen blend, ideal for summer."
+  },
+  {
+    "sku": "SK-004",
+    "name": "Navy Blue Waistcoat Set",
+    "category": "waistcoat_set",
+    "fabric": "Cotton blend",
+    "colors": [
+      "navy",
+      "blue"
+    ],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "price_eur": 79.9,
+    "stock": {
+      "M": 3,
+      "L": 5,
+      "XL": 2,
+      "XXL": 1
+    },
+    "care_instructions": "Dry clean recommended for best results.",
+    "occasion": [
+      "formal",
+      "wedding"
+    ],
+    "short_description": "Formal navy waistcoat set with matching trousers, great for weddings."
+  },
+  {
+    "sku": "SK-005",
+    "name": "Maroon Shawl with Gold Border",
+    "category": "shawl",
+    "fabric": "Wool blend",
+    "colors": [
+      "maroon",
+      "red",
+      "gold"
+    ],
+    "sizes": [
+      "one_size"
+    ],
+    "price_eur": 39.9,
+    "stock": {
+      "one_size": 10
+    },
+    "care_instructions": "Dry clean or gentle hand wash, lay flat to dry.",
+    "occasion": [
+      "winter",
+      "festive"
+    ],
+    "short_description": "Warm maroon shawl with gold border, perfect for winter evenings."
+  },
+  {
+    "sku": "SK-006",
+    "name": "Green Printed Lawn Suit",
+    "category": "lawn_suit",
+    "fabric": "Lawn",
+    "colors": [
+      "green",
+      "printed"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 55.0,
+    "stock": {
+      "S": 0,
+      "M": 4,
+      "L": 6
+    },
+    "care_instructions": "Machine wash cold, hang dry, iron on reverse.",
+    "occasion": [
+      "casual",
+      "spring"
+    ],
+    "short_description": "Fresh green printed lawn suit, light and comfortable for spring."
+  },
+  {
+    "sku": "SK-007",
+    "name": "Beige Bridal Lehenga",
+    "category": "lehenga",
+    "fabric": "Silk with heavy embroidery",
+    "colors": [
+      "beige",
+      "gold"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 249.0,
+    "stock": {
+      "S": 1,
+      "M": 2,
+      "L": 1
+    },
+    "care_instructions": "Dry clean only, store in breathable garment bag.",
+    "occasion": [
+      "bridal",
+      "wedding"
+    ],
+    "short_description": "Elegant beige bridal lehenga with intricate gold embroidery."
+  },
+  {
+    "sku": "SK-008",
+    "name": "Charcoal Grey Kurta Pajama",
+    "category": "kurta_pajama",
+    "fabric": "Cotton",
+    "colors": [
+      "grey",
+      "charcoal"
+    ],
+    "sizes": [
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "price_eur": 52.0,
+    "stock": {
+      "M": 7,
+      "L": 8,
+      "XL": 4,
+      "XXL": 2
+    },
+    "care_instructions": "Machine wash normal, tumble dry low.",
+    "occasion": [
+      "casual",
+      "everyday"
+    ],
+    "short_description": "Comfortable charcoal grey kurta pajama for everyday wear."
+  }
+]
