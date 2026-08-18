@@ -9,7 +9,7 @@ This module defines:
 """
 
 from typing import Dict, Any, Optional
-
+import boto3
 
 class LLMProvider:
     """Abstract interface for LLM providers."""
@@ -102,22 +102,21 @@ class MockLLMProvider(LLMProvider):
 
 class BedrockLLMProvider(LLMProvider):
     """
-    Placeholder for AWS Bedrock LLM provider.
-
-    To implement later:
-    - Use boto3 to call Bedrock (e.g., Claude Haiku).
-    - Pass prompt and system_prompt.
-    - Parse response and return text.
+    AWS Bedrock LLM provider using the Converse API.
     """
 
     def __init__(
         self,
-        model_id: str = "anthropic.claude-3-haiku-20240307-v1:0",
+        model_id: str = "amazon.nova-lite-v1:0",
         region_name: str = "eu-central-1",
+        guardrail_id: Optional[str] = None,
+        guardrail_version: Optional[str] = None,
     ) -> None:
         self.model_id = model_id
         self.region_name = region_name
-        # TODO: initialize boto3 client here
+        self.guardrail_id = guardrail_id
+        self.guardrail_version = guardrail_version
+        self.client = boto3.client("bedrock-runtime", region_name=self.region_name)
 
     def generate(
         self,
@@ -125,11 +124,31 @@ class BedrockLLMProvider(LLMProvider):
         system_prompt: Optional[str] = None,
         **kwargs: Any,
     ) -> str:
-        # TODO: implement Bedrock call
-        raise NotImplementedError(
-            "BedrockLLMProvider is not yet implemented. "
-            "This is a placeholder for cloud integration."
-        )
+        messages = [
+            {
+                "role": "user",
+                "content": [{"text": prompt}],
+            }
+        ]
+
+        params: dict = {
+            "modelId": self.model_id,
+            "messages": messages,
+        }
+
+        # Optional guardrail
+        if self.guardrail_id and self.guardrail_version:
+            params["guardrailConfig"] = {
+                "guardrailIdentifier": self.guardrail_id,
+                "guardrailVersion": self.guardrail_version,
+            }
+
+        response = self.client.converse(**params)
+
+        # Simple text extraction from the output
+        content = response["output"]["message"]["content"]
+        # Bedrock returns a list of content blocks; assume first is text
+        return content[0]["text"]
 
 
 class VertexLLMProvider(LLMProvider):

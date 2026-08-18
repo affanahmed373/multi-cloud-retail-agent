@@ -13,6 +13,12 @@ from app.agent import RetailAgent
 from app.llm_providers import MockLLMProvider, BedrockLLMProvider, VertexLLMProvider
 from app.config import config
 from retriever import StoreRetriever
+from app.graph import build_graph
+from app.agent import RetailAgent
+from app.llm_providers import BedrockLLMProvider
+from app.retriever import StoreRetriever
+from langfuse.callback import CallbackHandler
+from app import config
 
 app = FastAPI(
     title="Retail Agent API",
@@ -54,22 +60,31 @@ def create_agent() -> RetailAgent:
 
 
 # Create agent at startup
-agent = create_agent()
+agent = RetailAgent(
+    llm=llm,               # BedrockLLMProvider instance
+    retriever=StoreRetriever(),  # your existing BM25 retriever
+)
 
+compiled_graph = build_graph(agent)
 
-@app.post("/chat", response_model=ChatResponse)
-def chat(req: ChatRequest) -> ChatResponse:
-    """
-    Chat with the retail agent.
+langfuse_handler = CallbackHandler(
+    public_key=config.LANGFUSE_PUBLIC_KEY,
+    secret_key=config.LANGFUSE_SECRET_KEY,
+    host=config.LANGFUSE_HOST,
+)
 
-    Returns an answer with sources used for grounding.
-    """
-    result = agent.handle_query(req.query)
-    return ChatResponse(
-        answer=result["answer"],
-        sources=result["sources"],
-    )
-
+@app.post("/chat")
+def chat(request: ChatRequest):
+    initial_state = {"query": request.query}
+    result = compiled_graph.invoke(
+    initial_state,
+    config={"callbacks": [langfuse_handler]},
+)
+    return {
+        "answer": result["answer"],
+        "sources": [c["id"] for c in result["context_chunks"]],
+        "tool_info": result["tool_info"],
+    }
 
 @app.get("/health")
 def health() -> dict:

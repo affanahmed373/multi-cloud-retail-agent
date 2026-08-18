@@ -7,8 +7,14 @@ python-dotenv
 # Local RAG
 rank-bm25
 
+
 # AWS (for Bedrock later)
 boto3
 
 # GCP (for Vertex later)
 google-cloud-aiplatform
+
+# Agent orchestration & observability
+langgraph
+langfuse
+langchain-aws  # optional, if you prefer LangChain's Bedrock wrapper
