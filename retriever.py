@@ -1,33 +1,57 @@
 """
-Simple BM25-based retriever for the clothing store.
+Qdrant-based semantic retriever for the clothing store.
 
 This module:
 - Loads products and policy documents.
-- Builds a BM25 index over text chunks.
-- Retrieves top-k chunks for a given query.
+- Builds text chunks for indexing.
+- Encodes chunks with all-MiniLM-L6-v2 embeddings.
+- Stores embeddings in Qdrant and retrieves top-k chunks for a query.
 
-No cloud dependencies; runs fully locally.
+Requires:
+- qdrant-client
+- sentence-transformers
 """
 
 import json
-import os
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
-from rank_bm25 import BM25Okapi
+from sentence_transformers import SentenceTransformer
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
 
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 def load_products(products_path: str = "data/products.json") -> List[Dict[str, Any]]:
     with open(products_path, "r", encoding="utf-8") as f:
         return json.load(f)
 
+def build_policy_chunks(policies: List[Dict[str, str]]) -> List[Dict[str, Any]]:
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=512,
+        chunk_overlap=64,
+    )
+    chunks = []
+    for pol in policies:
+        for i, chunk in enumerate(splitter.split_text(pol["text"])):
+            chunks.append({
+                "id": f"{pol['id']}_chunk_{i}",
+                "source_type": "policy",
+                "text": chunk,
+                "payload": {
+                    "policy_id": pol["id"],
+                    "source_type": "policy",
+                    "chunk_index": i,
+                },
+            })
+    return chunks
 
 def load_policies(policies_dir: str = "data/policies") -> List[Dict[str, str]]:
     """
     Load all .md files from policies_dir.
     Returns a list of docs with keys: id, text.
     """
-    policies = []
+    policies: List[Dict[str, str]] = []
     policies_path = Path(policies_dir)
     if not policies_path.exists():
         return policies
@@ -43,16 +67,20 @@ def load_policies(policies_dir: str = "data/policies") -> List[Dict[str, str]]:
 def build_chunks(
     products: List[Dict[str, Any]],
     policies: List[Dict[str, str]],
-) -> List[Dict[str, str]]:
+) -> List[Dict[str, Any]]:
     """
     Build chunks for indexing.
 
     For products: one chunk per product (description + key fields).
     For policies: one chunk per policy document.
 
-    Returns a list of dicts with keys: id, source_type, text.
+    Returns a list of dicts with keys:
+    - id: unique identifier (SKU or policy id)
+    - source_type: "product" or "policy"
+    - text: chunk text
+    - payload: metadata for filtering (category, price, etc.)
     """
-    chunks = []
+    chunks: List[Dict[str, Any]] = []
 
     # Product chunks
     for p in products:
@@ -74,85 +102,169 @@ def build_chunks(
 
         text = ". ".join(text_parts)
 
-        chunks.append({
-            "id": p["sku"],
+        payload = {
+            "sku": p["sku"],
+            "name": p["name"],
+            "category": p["category"],
+            "fabric": p["fabric"],
+            "colors": p["colors"],
+            "sizes": p["sizes"],
+            "price_eur": p["price_eur"],
+            "occasion": p["occasion"],
             "source_type": "product",
-            "text": text,
-        })
+        }
+
+        chunks.append(
+            {
+                "id": p["sku"],
+                "source_type": "product",
+                "text": text,
+                "payload": payload,
+            }
+        )
 
     # Policy chunks
-    for pol in policies:
-        chunks.append({
-            "id": pol["id"],
-            "source_type": "policy",
-            "text": pol["text"],
-        })
+    policy_chunks = build_policy_chunks(policies)
+    chunks.extend(policy_chunks)
 
     return chunks
 
 
-def tokenize(text: str) -> List[str]:
-    """
-    Simple tokenizer: lowercase + split on non-alphanumeric.
-    Good enough for a small demo; can be improved later.
-    """
-    import re
-
-    text = text.lower()
-    tokens = re.findall(r"[a-z0-9]+", text)
-    return tokens
-
-
 class StoreRetriever:
     """
-    BM25 retriever over products and policies.
+    Qdrant-based semantic retriever over products and policies.
+
+    Uses sentence-transformers/all-MiniLM-L6-v2 for embeddings and
+    Qdrant for vector search.
     """
 
     def __init__(
         self,
         products_path: str = "data/products.json",
         policies_dir: str = "data/policies",
+        qdrant_url: Optional[str] = None,
+        qdrant_api_key: Optional[str] = None,
+        collection_name: str = "retail_store",
     ):
         self.products = load_products(products_path)
         self.policies = load_policies(policies_dir)
         self.chunks = build_chunks(self.products, self.policies)
 
-        # Prepare BM25 index
-        self.corpus = [tokenize(chunk["text"]) for chunk in self.chunks]
-        self.bm25 = BM25Okapi(self.corpus)
+        # Initialize encoder model
+        self.encoder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+
+        # Initialize Qdrant client
+        # qdrant_url can be your cloud URL or "http://localhost:6333" for local
+        self.client = QdrantClient(
+            url=qdrant_url or "http://localhost:6333",
+            api_key=qdrant_api_key,
+        )
+        self.collection_name = collection_name
+
+        # Ensure collection exists, then index data
+        self._ensure_collection()
+        self._index_chunks()
+
+    def _ensure_collection(self) -> None:
+        """
+        Create collection if it does not exist.
+        """
+        existing = None
+        try:
+            existing = self.client.get_collection(self.collection_name)
+        except Exception:
+            existing = None
+
+        if existing is not None:
+            return
+
+        vector_dim = self.encoder.get_sentence_embedding_dimension()
+        self.client.create_collection(
+            collection_name=self.collection_name,
+            vectors_config=models.VectorParams(
+                size=vector_dim,
+                distance=models.Distance.COSINE,
+            ),
+        )
+
+    def _index_chunks(self) -> None:
+        """
+        Encode all chunks and upsert them into Qdrant.
+        """
+        if not self.chunks:
+            return
+
+        texts = [c["text"] for c in self.chunks]
+        embeddings = self.encoder.encode(texts, normalize_embeddings=True)
+
+        points = []
+        for idx, (chunk, emb) in enumerate(zip(self.chunks, embeddings)):
+            points.append(
+                models.PointStruct(
+                    id=chunk["id"],
+                    vector=emb.tolist(),
+                    payload=chunk["payload"],
+                )
+            )
+
+        self.client.upsert(
+            collection_name=self.collection_name,
+            points=points,
+            wait=True,
+        )
 
     def retrieve(
         self,
         query: str,
         top_k: int = 3,
+        filters: Optional[models.Filter] = None,
     ) -> List[Dict[str, Any]]:
         """
-        Retrieve top_k chunks for a given query.
+        Retrieve top_k chunks for a given query using semantic search.
 
-        Returns a list of dicts with keys: id, source_type, text, score.
+        Optionally apply Qdrant payload filters (e.g., category, size).
+        Returns a list of dicts with keys: id, source_type, text, score, payload.
         """
-        q_tokens = tokenize(query)
-        scores = self.bm25.get_scores(q_tokens)
+        query_vec = self.encoder.encode(query, normalize_embeddings=True).tolist()
 
-        # Get top_k indices
-        top_indices = sorted(
-            range(len(scores)),
-            key=lambda i: scores[i],
-            reverse=True,
-        )[:top_k]
+        search_result = self.client.search(
+            collection_name=self.collection_name,
+            query_vector=query_vec,
+            limit=top_k,
+            query_filter=filters,
+        )
 
-        results = []
-        for idx in top_indices:
-            chunk = self.chunks[idx].copy()
-            chunk["score"] = float(scores[idx])
-            results.append(chunk)
+        results: List[Dict[str, Any]] = []
+        for point in search_result:
+            payload = point.payload or {}
+            source_type = payload.get("source_type", "unknown")
+            # We did not store full text in payload; use local chunks to get text
+            # (you could also store text in payload if you prefer).
+            # For now, look up by id in self.chunks.
+            matching = next(
+                (c for c in self.chunks if c["id"] == point.id), None
+            )
+            text = matching["text"] if matching else ""
+
+            results.append(
+                {
+                    "id": point.id,
+                    "source_type": source_type,
+                    "text": text,
+                    "score": float(point.score),
+                    "payload": payload,
+                }
+            )
 
         return results
 
 
 # Simple manual test
 if __name__ == "__main__":
-    retriever = StoreRetriever()
+    retriever = StoreRetriever(
+        qdrant_url="http://localhost:6333",  # or your Qdrant Cloud URL
+        qdrant_api_key=None,                # set if using Qdrant Cloud
+    )
 
     test_queries = [
         "Do you ship to Berlin?",
