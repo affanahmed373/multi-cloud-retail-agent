@@ -18,3 +18,5 @@ google-cloud-aiplatform
 langgraph
 langfuse
 langchain-aws  # optional, if you prefer LangChain's Bedrock wrapper
+
+qdrant-client

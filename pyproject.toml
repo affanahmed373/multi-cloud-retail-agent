@@ -1,7 +1,21 @@
 [project]
 name = "multi-cloud-retail-agent"
 version = "0.1.0"
-description = "Add your description here"
+description = "Multi-cloud agentic RAG for a clothing store"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "python-dotenv",
+    "rank-bm25",
+    "boto3",
+    "google-cloud-aiplatform",
+    "qdrant-client",
+    "sentence-transformers",
+    "langchain",
+    "langgraph",
+    "langfuse",
+    "gradio",
+]

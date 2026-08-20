@@ -9,3 +9,4 @@ terraform/*.tfvars
 terraform/crash.log
 terraform/override.tf
 terraform/*_override.tf
+*.pyc
