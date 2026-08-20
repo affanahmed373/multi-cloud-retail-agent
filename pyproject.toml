@@ -18,4 +18,5 @@ dependencies = [
     "langgraph",
     "langfuse",
     "gradio",
+    "langchain-text-splitters>=1.1.2",
 ]

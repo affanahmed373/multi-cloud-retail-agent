@@ -20,7 +20,7 @@ from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 def load_products(products_path: str = "data/products.json") -> List[Dict[str, Any]]:
     with open(products_path, "r", encoding="utf-8") as f:

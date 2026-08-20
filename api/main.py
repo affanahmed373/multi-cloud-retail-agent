@@ -12,13 +12,24 @@ from app.schemas import ChatRequest, ChatResponse
 from app.agent import RetailAgent
 from app.llm_providers import MockLLMProvider, BedrockLLMProvider, VertexLLMProvider
 from app.config import config
-from retriever import StoreRetriever
+from app.retriever import StoreRetriever
 from app.graph import build_graph
 from app.agent import RetailAgent
 from app.llm_providers import BedrockLLMProvider
 from app.retriever import StoreRetriever
-from langfuse.callback import CallbackHandler
+from langfuse import get_client
+from langfuse.langchain import CallbackHandler
 from app import config
+import os
+
+LANGFUSE_SECRET_KEY = os.getenv("LANGFUSE_SECRET_KEY")
+LANGFUSE_PUBLIC_KEY = os.getenv("LANGFUSE_PUBLIC_KEY")
+LANGFUSE_BASE_URL = os.getenv("LANGFUSE_BASE_URL")
+
+# Initialize Langfuse client
+langfuse = get_client()
+# Initialize Langfuse CallbackHandler for Langchain (tracing)
+langfuse_handler = CallbackHandler()
 
 app = FastAPI(
     title="Retail Agent API",
