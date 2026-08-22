@@ -10,6 +10,9 @@ This module defines:
 
 from typing import Dict, Any, Optional
 import boto3
+import os
+import requests
+
 
 class LLMProvider:
     """Abstract interface for LLM providers."""
@@ -100,6 +103,95 @@ class MockLLMProvider(LLMProvider):
         )
 
 
+class OpenAILLMProvider(LLMProvider):
+    """
+    OpenAI LLM provider using the Chat Completions API.
+    """
+
+    def __init__(
+        self,
+        model: str = "gpt-4o-mini",
+        api_key: Optional[str] = None,
+    ) -> None:
+        self.model = model
+        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
+        if not self.api_key:
+            raise ValueError("OPENAI_API_KEY is not set.")
+        self.endpoint = "https://api.openai.com/v1/chat/completions"
+
+    def generate(
+        self,
+        prompt: str,
+        system_prompt: Optional[str] = None,
+        **kwargs: Any,
+    ) -> str:
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
+        response = requests.post(
+            self.endpoint,
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": self.model,
+                "messages": messages,
+                "temperature": kwargs.get("temperature", 0.3),
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        data = response.json()
+        return data["choices"][0]["message"]["content"]
+
+
+class DeepSeekLLMProvider(LLMProvider):
+    """
+    DeepSeek LLM provider using their OpenAI-compatible Chat Completions API.
+    """
+
+    def __init__(
+        self,
+        model: str = "deepseek-chat",
+        api_key: Optional[str] = None,
+    ) -> None:
+        self.model = model
+        self.api_key = api_key or os.getenv("DEEPSEEK_API_KEY")
+        if not self.api_key:
+            raise ValueError("DEEPSEEK_API_KEY is not set.")
+        self.endpoint = "https://api.deepseek.com/chat/completions"
+
+    def generate(
+        self,
+        prompt: str,
+        system_prompt: Optional[str] = None,
+        **kwargs: Any,
+    ) -> str:
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+
+        response = requests.post(
+            self.endpoint,
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": self.model,
+                "messages": messages,
+                "temperature": kwargs.get("temperature", 0.3),
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        data = response.json()
+        return data["choices"][0]["message"]["content"]
+        
 class BedrockLLMProvider(LLMProvider):
     """
     AWS Bedrock LLM provider using the Converse API.
@@ -183,3 +275,4 @@ class VertexLLMProvider(LLMProvider):
             "VertexLLMProvider is not yet implemented. "
             "This is a placeholder for cloud integration."
         )
+

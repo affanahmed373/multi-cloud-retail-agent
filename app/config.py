@@ -37,5 +37,8 @@ class Config:
     PRODUCTS_PATH: str = os.getenv("PRODUCTS_PATH", "data/products.json")
     POLICIES_DIR: str = os.getenv("POLICIES_DIR", "data/policies")
 
+    QDRANT_URL: Optional[str] = os.getenv("QDRANT_URL")
+    QDRANT_API_KEY: Optional[str] = os.getenv("QDRANT_API_KEY")
+
 
 config = Config()
