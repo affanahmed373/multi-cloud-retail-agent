@@ -76,11 +76,8 @@ agent = create_agent()
 
 compiled_graph = build_graph(agent)
 
-langfuse_handler = CallbackHandler(
-    public_key=LANGFUSE_PUBLIC_KEY,
-    secret_key=LANGFUSE_SECRET_KEY,
-    host=LANGFUSE_HOST,
-)
+# Credentials/host come from LANGFUSE_* env vars via get_client()
+langfuse_handler = CallbackHandler(public_key=LANGFUSE_PUBLIC_KEY)
 
 @app.post("/chat")
 def chat(request: ChatRequest):
