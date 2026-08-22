@@ -13,14 +13,23 @@ Requires:
 """
 
 import json
+import uuid
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
+from qdrant_client.http.exceptions import UnexpectedResponse
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+# Deterministic UUIDs from string chunk ids (Qdrant only accepts UUID or unsigned int)
+_POINT_ID_NS = uuid.UUID("6ba7b810-9dad-11d1-80b4-00c04fd430c8")
+
+
+def _point_id(chunk_id: str) -> str:
+    return str(uuid.uuid5(_POINT_ID_NS, chunk_id))
 
 def load_products(products_path: str = "data/products.json") -> List[Dict[str, Any]]:
     with open(products_path, "r", encoding="utf-8") as f:
@@ -169,23 +178,22 @@ class StoreRetriever:
         """
         Create collection if it does not exist.
         """
-        existing = None
-        try:
-            existing = self.client.get_collection(self.collection_name)
-        except Exception:
-            existing = None
-
-        if existing is not None:
+        if self.client.collection_exists(self.collection_name):
             return
 
-        vector_dim = self.encoder.get_sentence_embedding_dimension()
-        self.client.create_collection(
-            collection_name=self.collection_name,
-            vectors_config=models.VectorParams(
-                size=vector_dim,
-                distance=models.Distance.COSINE,
-            ),
-        )
+        vector_dim = self.encoder.get_embedding_dimension()
+        try:
+            self.client.create_collection(
+                collection_name=self.collection_name,
+                vectors_config=models.VectorParams(
+                    size=vector_dim,
+                    distance=models.Distance.COSINE,
+                ),
+            )
+        except UnexpectedResponse as e:
+            # Race / reload: another process created it first
+            if "already exists" not in str(e).lower():
+                raise
 
     def _index_chunks(self) -> None:
         """
@@ -198,12 +206,13 @@ class StoreRetriever:
         embeddings = self.encoder.encode(texts, normalize_embeddings=True)
 
         points = []
-        for idx, (chunk, emb) in enumerate(zip(self.chunks, embeddings)):
+        for chunk, emb in zip(self.chunks, embeddings):
+            payload = {**chunk["payload"], "chunk_id": chunk["id"], "text": chunk["text"]}
             points.append(
                 models.PointStruct(
-                    id=chunk["id"],
+                    id=_point_id(chunk["id"]),
                     vector=emb.tolist(),
-                    payload=chunk["payload"],
+                    payload=payload,
                 )
             )
 
@@ -238,17 +247,17 @@ class StoreRetriever:
         for point in search_result:
             payload = point.payload or {}
             source_type = payload.get("source_type", "unknown")
-            # We did not store full text in payload; use local chunks to get text
-            # (you could also store text in payload if you prefer).
-            # For now, look up by id in self.chunks.
-            matching = next(
-                (c for c in self.chunks if c["id"] == point.id), None
-            )
-            text = matching["text"] if matching else ""
+            chunk_id = payload.get("chunk_id", str(point.id))
+            text = payload.get("text") or ""
+            if not text:
+                matching = next(
+                    (c for c in self.chunks if c["id"] == chunk_id), None
+                )
+                text = matching["text"] if matching else ""
 
             results.append(
                 {
-                    "id": point.id,
+                    "id": chunk_id,
                     "source_type": source_type,
                     "text": text,
                     "score": float(point.score),
