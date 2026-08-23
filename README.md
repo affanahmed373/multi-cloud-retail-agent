@@ -191,8 +191,8 @@ The repo is structured for cost‑aware, incremental demos:
 
 1. **Phase 1 – Local RAG + multi-provider agent** *(current)*
    - Qdrant vector search, LangGraph agent, LangChain guardrails, Gradio UI.
-   - OpenAI / DeepSeek / Gemini API keys for generation; Langfuse for tracing.
-   - RAGAS + LLM-as-judge over `eval/golden_qa.json` (harness in place).
+   - OpenAI / DeepSeek / Gemini API keys for generation; Langfuse tracing + LLM-as-a-judge eval.
+   - RAGAS metrics (optional next step) over `eval/golden_qa.json`.
 
 2. **Phase 2 – Docker + deployment**
    - Dockerize FastAPI + Gradio; deploy to HF Spaces, AWS App Runner, or GCP Cloud Run.
@@ -205,12 +205,33 @@ The repo is structured for cost‑aware, incremental demos:
 
 ## Evaluation & observability
 
-- `eval/golden_qa.json` – curated QA pairs for the retail domain.
-- `eval/rubric.yaml` – scoring rubric (correctness, groundedness, completeness, etc.).
-- `eval/run_eval.py` – run the agent against the golden set.
-- **Langfuse** – traces LangGraph runs via `CallbackHandler` (set `LANGFUSE_*` in `.env`).
+**Golden dataset** (`eval/golden_qa.json`) — 20 curated items covering policy, inventory, and recommendations. Each item includes a reference answer and `required_facts` tags for the judge. This is enough to start LLM-as-a-judge eval; expand later with guardrail/adversarial cases and multilingual queries.
 
-Ready to connect **LLM-as-judge** and **RAGAS** for automated eval.
+**Rubric** (`eval/rubric.yaml`) — five dimensions scored 1–5: correctness, groundedness, completeness, helpfulness, tone.
+
+**Run eval with Langfuse + LLM-as-a-judge:**
+
+```bash
+# Full eval: agent answers + judge scores logged to Langfuse Experiments
+uv run python -m eval.run_eval --provider mock --judge-provider openai
+
+# Upload golden set to Langfuse Datasets (optional, for UI experiments)
+uv run python -m eval.run_eval --sync-dataset
+
+# Agent only, no judge (facts heuristic still runs)
+uv run python -m eval.run_eval --provider openai --no-judge
+```
+
+Requires `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and a judge API key (`OPENAI_API_KEY` by default via `JUDGE_PROVIDER=openai`).
+
+Scores appear in Langfuse under **Experiments** (per-run item scores) and linked **Traces** from each agent invocation.
+
+| Env var | Purpose |
+|---------|---------|
+| `JUDGE_PROVIDER` | Judge LLM: `openai`, `deepseek`, or `gemini` |
+| `JUDGE_MODEL` | Optional model override (e.g. `gpt-4o-mini`) |
+
+**Live tracing** — `/chat` and Gradio `/ui` already trace LangGraph runs via Langfuse `CallbackHandler`.
 
 ## Tech stack
 

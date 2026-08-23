@@ -55,5 +55,9 @@ class Config:
     PII_OUTPUT_STRATEGY: str = os.getenv("PII_OUTPUT_STRATEGY", "redact")
     PII_CREDIT_CARD_STRATEGY: str = os.getenv("PII_CREDIT_CARD_STRATEGY", "mask")
 
+    # LLM-as-a-judge (eval)
+    JUDGE_PROVIDER: str = os.getenv("JUDGE_PROVIDER", "openai")
+    JUDGE_MODEL: Optional[str] = os.getenv("JUDGE_MODEL")
+
 
 config = Config()
