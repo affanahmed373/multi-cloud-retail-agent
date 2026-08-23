@@ -148,6 +148,59 @@ class OpenAILLMProvider(LLMProvider):
         return data["choices"][0]["message"]["content"]
 
 
+class GeminiLLMProvider(LLMProvider):
+    """
+    Google Gemini via the Generative Language API (Google AI Studio).
+    """
+
+    def __init__(
+        self,
+        model: str = "gemini-2.0-flash",
+        api_key: Optional[str] = None,
+    ) -> None:
+        self.model = model
+        self.api_key = (
+            api_key or os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+        )
+        if not self.api_key:
+            raise ValueError("GEMINI_API_KEY or GOOGLE_API_KEY is not set.")
+
+    def generate(
+        self,
+        prompt: str,
+        system_prompt: Optional[str] = None,
+        **kwargs: Any,
+    ) -> str:
+        url = (
+            f"https://generativelanguage.googleapis.com/v1beta/models/"
+            f"{self.model}:generateContent"
+        )
+        body: dict = {
+            "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": kwargs.get("temperature", 0.3)},
+        }
+        if system_prompt:
+            body["systemInstruction"] = {"parts": [{"text": system_prompt}]}
+
+        response = requests.post(
+            url,
+            params={"key": self.api_key},
+            headers={"Content-Type": "application/json"},
+            json=body,
+            timeout=60,
+        )
+        response.raise_for_status()
+        data = response.json()
+        candidates = data.get("candidates") or []
+        if not candidates:
+            raise ValueError("Gemini returned no candidates.")
+        parts = candidates[0].get("content", {}).get("parts") or []
+        text = "".join(part.get("text", "") for part in parts if part.get("text"))
+        if not text:
+            raise ValueError("Gemini returned an empty response.")
+        return text
+
+
 class DeepSeekLLMProvider(LLMProvider):
     """
     DeepSeek LLM provider using their OpenAI-compatible Chat Completions API.
@@ -245,12 +298,7 @@ class BedrockLLMProvider(LLMProvider):
 
 class VertexLLMProvider(LLMProvider):
     """
-    Placeholder for GCP Vertex AI LLM provider.
-
-    To implement later:
-    - Use google-cloud-aiplatform to call Gemini.
-    - Pass prompt and system instructions.
-    - Parse response and return text.
+    GCP Vertex AI Gemini provider.
     """
 
     def __init__(
@@ -260,9 +308,20 @@ class VertexLLMProvider(LLMProvider):
         location: str = "europe-west3",
     ) -> None:
         self.model_name = model_name
-        self.project_id = project_id
+        self.project_id = (
+            project_id
+            or os.getenv("VERTEX_PROJECT_ID")
+            or os.getenv("GOOGLE_CLOUD_PROJECT")
+        )
         self.location = location
-        # TODO: initialize Vertex AI client here
+        if not self.project_id:
+            raise ValueError("VERTEX_PROJECT_ID or GOOGLE_CLOUD_PROJECT is not set.")
+
+        import vertexai
+        from vertexai.generative_models import GenerativeModel
+
+        vertexai.init(project=self.project_id, location=self.location)
+        self._model = GenerativeModel(self.model_name)
 
     def generate(
         self,
@@ -270,9 +329,16 @@ class VertexLLMProvider(LLMProvider):
         system_prompt: Optional[str] = None,
         **kwargs: Any,
     ) -> str:
-        # TODO: implement Vertex AI call
-        raise NotImplementedError(
-            "VertexLLMProvider is not yet implemented. "
-            "This is a placeholder for cloud integration."
+        full_prompt = prompt
+        if system_prompt:
+            full_prompt = f"{system_prompt}\n\n{prompt}"
+
+        response = self._model.generate_content(
+            full_prompt,
+            generation_config={"temperature": kwargs.get("temperature", 0.3)},
         )
+        text = getattr(response, "text", None)
+        if not text:
+            raise ValueError("Vertex AI returned an empty response.")
+        return text
 

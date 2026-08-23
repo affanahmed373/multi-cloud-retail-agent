@@ -23,9 +23,16 @@ from app.graph import build_graph
 from app.llm_providers import (
     BedrockLLMProvider,
     DeepSeekLLMProvider,
+    GeminiLLMProvider,
     MockLLMProvider,
     OpenAILLMProvider,
     VertexLLMProvider,
+)
+from app.provider_registry import (
+    PROVIDER_SPECS,
+    default_provider_choice,
+    is_provider_configured,
+    normalize_provider,
 )
 from app.retriever import StoreRetriever
 from app.schemas import ChatRequest
@@ -62,13 +69,18 @@ def get_retriever() -> StoreRetriever:
 
 
 def _make_llm(provider_type: str):
-    provider_type = provider_type.lower()
+    provider_type = normalize_provider(provider_type)
     if provider_type == "mock":
         return MockLLMProvider()
     if provider_type == "openai":
         return OpenAILLMProvider(api_key=os.getenv("OPENAI_API_KEY"))
     if provider_type == "deepseek":
         return DeepSeekLLMProvider(api_key=os.getenv("DEEPSEEK_API_KEY"))
+    if provider_type == "gemini":
+        return GeminiLLMProvider(
+            model=config.GEMINI_MODEL,
+            api_key=config.GEMINI_API_KEY,
+        )
     if provider_type == "bedrock":
         return BedrockLLMProvider(
             model_id=config.BEDROCK_MODEL_ID,
@@ -82,19 +94,22 @@ def _make_llm(provider_type: str):
             project_id=config.VERTEX_PROJECT_ID,
             location=config.VERTEX_LOCATION,
         )
-    raise ValueError(f"Unknown LLM_PROVIDER: {provider_type}")
+    raise ValueError(
+        f"Unknown provider: {provider_type}. "
+        "Choose mock, openai, deepseek, gemini, vertex, or bedrock."
+    )
 
 
 def get_agent(provider: Optional[str] = None) -> RetailAgent:
     """Return a cached agent for the given (or default) provider."""
-    key = (provider or config.LLM_PROVIDER).lower()
+    key = normalize_provider(provider or config.LLM_PROVIDER)
     if key not in _agents:
         _agents[key] = RetailAgent(_make_llm(key), retriever=get_retriever())
     return _agents[key]
 
 
 def get_graph(provider: Optional[str] = None):
-    key = (provider or config.LLM_PROVIDER).lower()
+    key = normalize_provider(provider or config.LLM_PROVIDER)
     if key not in _graphs:
         _graphs[key] = build_graph(get_agent(key))
     return _graphs[key]
@@ -108,12 +123,13 @@ langfuse_handler = CallbackHandler(public_key=LANGFUSE_PUBLIC_KEY)
 
 def run_query(query: str, provider: Optional[str] = None) -> dict:
     """Run a question through the LangGraph agent pipeline."""
-    graph = get_graph(provider)
+    selected = normalize_provider(provider or config.LLM_PROVIDER)
+    graph = get_graph(selected)
     result = graph.invoke(
         {"query": query},
         config={
             "callbacks": [langfuse_handler],
-            "configurable": {"thread_id": f"chat-{provider or config.LLM_PROVIDER}"},
+            "configurable": {"thread_id": f"chat-{selected}"},
         },
     )
     return {
@@ -132,8 +148,17 @@ def chat(request: ChatRequest):
 @app.get("/health")
 def health() -> dict:
     """Health check endpoint."""
-    return {"status": "ok", "provider": config.LLM_PROVIDER}
+    return {
+        "status": "ok",
+        "provider": config.LLM_PROVIDER,
+        "providers": {
+            spec["id"]: is_provider_configured(spec["id"]) for spec in PROVIDER_SPECS
+        },
+    }
 
 
-demo = build_gradio_app(ask=run_query, default_provider=config.LLM_PROVIDER)
+demo = build_gradio_app(
+    ask=run_query,
+    default_provider=default_provider_choice(),
+)
 app = gr.mount_gradio_app(app, demo, path="/ui")

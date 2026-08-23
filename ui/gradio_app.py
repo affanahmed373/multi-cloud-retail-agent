@@ -1,59 +1,45 @@
 """
 Gradio chat UI for the retail agent.
 
-Mounted on the FastAPI app at /ui. Users can ask store questions and
-optionally pick an LLM provider when more than one is configured.
+Mounted on the FastAPI app at /ui. Users can pick OpenAI, DeepSeek, Gemini,
+Vertex AI, Bedrock, or Mock for each question.
 """
 
 from __future__ import annotations
 
-from typing import Callable, List, Optional
+from typing import Callable, List
 
 import gradio as gr
 
-
-def available_providers() -> List[str]:
-    """Providers that can run with the current environment."""
-    import os
-
-    options = ["mock"]
-    if os.getenv("OPENAI_API_KEY"):
-        options.append("openai")
-    if os.getenv("DEEPSEEK_API_KEY"):
-        options.append("deepseek")
-    if os.getenv("AWS_ACCESS_KEY_ID") or os.getenv("AWS_PROFILE"):
-        options.append("bedrock")
-    if os.getenv("VERTEX_PROJECT_ID"):
-        options.append("vertex")
-    return options
+from app.provider_registry import (
+    default_provider_choice,
+    normalize_provider,
+    provider_choices,
+    provider_help_text,
+)
 
 
 def build_gradio_app(
     ask: Callable[[str, str], dict],
-    default_provider: str,
+    default_provider: str | None = None,
 ) -> gr.Blocks:
     """
     Build the Gradio Blocks app.
 
-    ask(query, provider) -> {"answer", "sources", "tool_info"}
+    ask(query, provider) -> {"answer", "sources", "tool_info", "guardrail"}
     """
-    providers = available_providers()
-    if default_provider not in providers:
-        providers = [default_provider] + [p for p in providers if p != default_provider]
-
-    can_choose = len(providers) > 1
-    provider_label = (
-        f"LLM provider (default from .env: {default_provider})"
-        if can_choose
-        else f"LLM provider (fixed): {default_provider}"
-    )
+    choices = provider_choices(include_mock=True)
+    provider_ids = [pid for _, pid in choices]
+    default = default_provider_choice(default_provider or "mock")
+    if default not in provider_ids:
+        default = provider_ids[0]
 
     def respond(message: str, history: list, provider: str):
         if not message or not message.strip():
             yield history, ""
             return
 
-        provider = (provider or default_provider).lower()
+        provider = normalize_provider(provider or default)
         history = list(history or [])
         history.append({"role": "user", "content": message})
         history.append({"role": "assistant", "content": "Thinking…"})
@@ -66,13 +52,15 @@ def build_gradio_app(
             tool_info = (result.get("tool_info") or "").strip()
             guardrail = result.get("guardrail") or {}
 
-            extras = []
+            extras = [f"Provider: {provider}"]
             if guardrail.get("blocked"):
                 extras.append(
                     f"Guardrail blocked ({guardrail.get('stage', '?')}: "
                     f"{guardrail.get('code', 'unknown')})"
                 )
-            elif guardrail.get("pii_redacted_input") or guardrail.get("pii_redacted_output"):
+            elif guardrail.get("pii_redacted_input") or guardrail.get(
+                "pii_redacted_output"
+            ):
                 pii = guardrail.get("pii_detected") or []
                 if pii:
                     extras.append("PII redacted: " + ", ".join(pii))
@@ -83,7 +71,7 @@ def build_gradio_app(
             if extras:
                 answer = answer + "\n\n---\n" + "\n".join(extras)
         except Exception as e:
-            answer = f"Error: {e}"
+            answer = f"Error ({provider}): {e}"
 
         history[-1] = {"role": "assistant", "content": answer}
         yield history, ""
@@ -94,12 +82,13 @@ def build_gradio_app(
             "Ask about products, stock, shipping, returns, and recommendations "
             "for a Pakistani clothing store in Germany."
         )
+        gr.Markdown(provider_help_text())
 
         provider = gr.Dropdown(
-            choices=providers,
-            value=default_provider if default_provider in providers else providers[0],
-            label=provider_label,
-            interactive=can_choose,
+            choices=choices,
+            value=default,
+            label="LLM provider",
+            interactive=True,
         )
 
         chatbot = gr.Chatbot(label="Chat", height=480)

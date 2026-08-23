@@ -37,6 +37,12 @@ class Config:
     # Frankfurt — nearest GCP region to Duisburg
     VERTEX_LOCATION: str = os.getenv("VERTEX_LOCATION", "europe-west3")
 
+    # Google AI (Gemini API) settings
+    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+    GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY") or os.getenv(
+        "GOOGLE_API_KEY"
+    )
+
     # Data paths
     PRODUCTS_PATH: str = os.getenv("PRODUCTS_PATH", "data/products.json")
     POLICIES_DIR: str = os.getenv("POLICIES_DIR", "data/policies")
