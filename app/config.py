@@ -26,6 +26,10 @@ class Config:
     )
     # Frankfurt — nearest AWS region to Duisburg
     BEDROCK_REGION: str = os.getenv("BEDROCK_REGION", "eu-central-1")
+    BEDROCK_GUARDRAIL_ID: Optional[str] = os.getenv("BEDROCK_GUARDRAIL_ID")
+    BEDROCK_GUARDRAIL_VERSION: Optional[str] = os.getenv(
+        "BEDROCK_GUARDRAIL_VERSION", "DRAFT"
+    )
 
     # GCP Vertex AI settings
     VERTEX_MODEL_NAME: str = os.getenv("VERTEX_MODEL_NAME", "gemini-1.5-flash")

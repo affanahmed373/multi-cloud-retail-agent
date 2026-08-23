@@ -64,8 +64,14 @@ def build_gradio_app(
             answer = result.get("answer") or "(No answer)"
             sources = result.get("sources") or []
             tool_info = (result.get("tool_info") or "").strip()
+            guardrail = result.get("guardrail") or {}
 
             extras = []
+            if guardrail.get("blocked"):
+                extras.append(
+                    f"Guardrail blocked ({guardrail.get('stage', '?')}: "
+                    f"{guardrail.get('code', 'unknown')})"
+                )
             if sources:
                 extras.append("Sources: " + ", ".join(str(s) for s in sources))
             if tool_info:

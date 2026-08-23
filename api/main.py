@@ -73,6 +73,8 @@ def _make_llm(provider_type: str):
         return BedrockLLMProvider(
             model_id=config.BEDROCK_MODEL_ID,
             region_name=config.BEDROCK_REGION,
+            guardrail_id=config.BEDROCK_GUARDRAIL_ID,
+            guardrail_version=config.BEDROCK_GUARDRAIL_VERSION,
         )
     if provider_type == "vertex":
         return VertexLLMProvider(
@@ -118,6 +120,7 @@ def run_query(query: str, provider: Optional[str] = None) -> dict:
         "answer": result["answer"],
         "sources": [c["id"] for c in result["context_chunks"]],
         "tool_info": result.get("tool_info") or "",
+        "guardrail": result.get("guardrail") or {"blocked": False},
     }
 
 

@@ -9,6 +9,7 @@ This module:
 
 from typing import Dict, Any, Optional, List
 
+from .guardrails import check_input, check_output, scoped_system_prompt
 from .llm_providers import LLMProvider
 from .tools import check_inventory, get_policy
 from .retriever import StoreRetriever
@@ -22,6 +23,7 @@ class RetailAgent:
     - Answer policy questions using RAG over policies.
     - Answer inventory/product questions using RAG + tools.
     - Provide recommendations based on context.
+    - Apply local input/output guardrails before and after generation.
     """
 
     def __init__(
@@ -37,11 +39,22 @@ class RetailAgent:
         Process a user query and return an answer with sources.
 
         Steps:
+        0. Input guardrails.
         1. Retrieve relevant context (products + policies).
         2. Optionally call tools (inventory, policy lookup).
         3. Build a prompt for the LLM.
-        4. Generate and return the answer.
+        4. Generate answer, then output guardrails.
         """
+        blocked = check_input(query)
+        if not blocked.allowed:
+            return {
+                "answer": blocked.message or "Request blocked by guardrails.",
+                "sources": [],
+                "context_chunks": [],
+                "tool_info": "",
+                "guardrail": {"blocked": True, "stage": "input", "code": blocked.code},
+            }
+
         # 1. Retrieve context
         context_chunks: List[Dict[str, Any]] = []
         if self.retriever:
@@ -89,7 +102,7 @@ class RetailAgent:
             [f"[{c['source_type']}] {c['id']}:\n{c['text']}" for c in context_chunks]
         )
 
-        system_prompt = (
+        system_prompt = scoped_system_prompt(
             "You are a helpful assistant for a small Pakistani clothing store in Germany. "
             "Answer questions politely and concisely. "
             "Use the provided context and tool info to give accurate answers. "
@@ -108,12 +121,22 @@ Question: {query}
 
 Answer:"""
 
-        # 4. Generate answer
+        # 4. Generate answer + output guardrails
         answer = self.llm.generate(prompt, system_prompt=system_prompt)
+        out = check_output(answer)
+        if not out.allowed:
+            return {
+                "answer": out.message or "Request blocked by guardrails.",
+                "sources": [c["id"] for c in context_chunks],
+                "context_chunks": context_chunks,
+                "tool_info": tool_info,
+                "guardrail": {"blocked": True, "stage": "output", "code": out.code},
+            }
 
         return {
             "answer": answer,
             "sources": [c["id"] for c in context_chunks],
             "context_chunks": context_chunks,
             "tool_info": tool_info,
+            "guardrail": {"blocked": False},
         }

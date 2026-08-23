@@ -1,16 +1,17 @@
-from typing import TypedDict, List, Dict, Any
+from typing import TypedDict, List, Dict, Any, NotRequired
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import InMemorySaver
 
 from .agent import RetailAgent
-from .llm_providers import LLMProvider
-from .retriever import StoreRetriever
+
 
 class AgentState(TypedDict):
     query: str
     answer: str
     context_chunks: List[Dict[str, Any]]
     tool_info: str
+    guardrail: NotRequired[Dict[str, Any]]
+
 
 def run_agent_node(state: AgentState, agent: RetailAgent) -> AgentState:
     result = agent.handle_query(state["query"])
@@ -19,7 +20,9 @@ def run_agent_node(state: AgentState, agent: RetailAgent) -> AgentState:
         "answer": result["answer"],
         "context_chunks": result["context_chunks"],
         "tool_info": result["tool_info"],
+        "guardrail": result.get("guardrail") or {"blocked": False},
     }
+
 
 def build_graph(agent: RetailAgent):
     graph = StateGraph(AgentState)
