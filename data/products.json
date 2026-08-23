@@ -1,12 +1,11 @@
 [
   {
     "sku": "SK-001",
-    "name": "Classic White Shalwar Kameez",
-    "category": "shalwar_kameez",
-    "fabric": "Cotton lawn",
+    "name": "Embroidered Emerald Green Lawn Suit",
+    "category": "Lawn Suit",
+    "fabric": "Lawn",
     "colors": [
-      "white",
-      "off-white"
+      "emerald green"
     ],
     "sizes": [
       "S",
@@ -14,25 +13,157 @@
       "L",
       "XL"
     ],
-    "price_eur": 49.9,
-    "stock": {
-      "S": 8,
-      "M": 12,
-      "L": 5,
-      "XL": 3
-    },
-    "care_instructions": "Machine wash cold, do not bleach, iron on low heat.",
+    "price_eur": 34.9,
+    "short_description": "embroidered emerald green lawn suit designed for casual wear.",
     "occasion": [
       "casual",
-      "everyday"
+      "daytime"
     ],
-    "short_description": "Comfortable everyday shalwar kameez in breathable cotton lawn."
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 0,
+      "M": 2,
+      "L": 4,
+      "XL": 6
+    }
   },
   {
     "sku": "SK-002",
-    "name": "Embroidered Black Shalwar Kameez",
-    "category": "shalwar_kameez",
-    "fabric": "Cotton with embroidery",
+    "name": "Printed Maroon Shalwar Kameez",
+    "category": "Shalwar Kameez",
+    "fabric": "Cotton Blend",
+    "colors": [
+      "maroon"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 43.4,
+    "short_description": "printed maroon shalwar kameez designed for festive wear.",
+    "occasion": [
+      "festive",
+      "evening"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 3,
+      "M": 5,
+      "L": 0
+    }
+  },
+  {
+    "sku": "SK-003",
+    "name": "Classic Ivory Kurta",
+    "category": "Kurta",
+    "fabric": "Cotton",
+    "colors": [
+      "ivory"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 51.9,
+    "short_description": "classic ivory kurta designed for casual wear.",
+    "occasion": [
+      "casual",
+      "work"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 6,
+      "M": 1,
+      "L": 3
+    }
+  },
+  {
+    "sku": "SK-004",
+    "name": "Festive Teal Waistcoat Set",
+    "category": "Waistcoat Set",
+    "fabric": "Polyester Blend",
+    "colors": [
+      "teal"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 60.4,
+    "short_description": "festive teal waistcoat set designed for formal wear.",
+    "occasion": [
+      "formal",
+      "wedding"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 2,
+      "M": 4,
+      "L": 6
+    }
+  },
+  {
+    "sku": "SK-005",
+    "name": "Handworked Mustard Anarkali Suit",
+    "category": "Anarkali Suit",
+    "fabric": "Chiffon",
+    "colors": [
+      "mustard"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 68.9,
+    "short_description": "handworked mustard anarkali suit designed for festive wear.",
+    "occasion": [
+      "festive",
+      "party"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 5,
+      "M": 0,
+      "L": 2,
+      "XL": 4
+    }
+  },
+  {
+    "sku": "SK-006",
+    "name": "Minimal Lavender Co-ord Set",
+    "category": "Co-ord Set",
+    "fabric": "Linen Blend",
+    "colors": [
+      "lavender"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 77.4,
+    "short_description": "minimal lavender co-ord set designed for casual wear.",
+    "occasion": [
+      "casual",
+      "daytime"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 1,
+      "M": 3,
+      "L": 5
+    }
+  },
+  {
+    "sku": "SK-007",
+    "name": "Statement Black Kaftan",
+    "category": "Kaftan",
+    "fabric": "Viscose",
     "colors": [
       "black"
     ],
@@ -41,180 +172,1157 @@
       "M",
       "L"
     ],
-    "price_eur": 69.9,
+    "price_eur": 85.9,
+    "short_description": "statement black kaftan designed for resort wear.",
+    "occasion": [
+      "resort",
+      "casual"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
     "stock": {
       "S": 4,
-      "M": 2,
-      "L": 0
-    },
-    "care_instructions": "Hand wash recommended, do not wring, dry in shade.",
-    "occasion": [
-      "festive",
-      "evening"
-    ],
-    "short_description": "Elegant black shalwar kameez with delicate embroidery, perfect for evenings."
+      "M": 6,
+      "L": 1
+    }
   },
   {
-    "sku": "SK-003",
-    "name": "Pastel Pink Kurta",
-    "category": "kurta",
-    "fabric": "Linen blend",
+    "sku": "SK-008",
+    "name": "Elegant Navy Blue Gharara Set",
+    "category": "Gharara Set",
+    "fabric": "Jacquard",
     "colors": [
-      "pink",
-      "pastel"
+      "navy blue"
     ],
     "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 94.4,
+    "short_description": "elegant navy blue gharara set designed for wedding wear.",
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 0,
+      "M": 2,
+      "L": 4
+    }
+  },
+  {
+    "sku": "SK-009",
+    "name": "Traditional Rose Pink Maxi Dress",
+    "category": "Maxi Dress",
+    "fabric": "Georgette",
+    "colors": [
+      "rose pink"
+    ],
+    "sizes": [
+      "S",
       "M",
       "L",
       "XL"
     ],
-    "price_eur": 45.0,
-    "stock": {
-      "M": 6,
-      "L": 9,
-      "XL": 7
-    },
-    "care_instructions": "Machine wash gentle, iron medium heat.",
+    "price_eur": 102.9,
+    "short_description": "traditional rose pink maxi dress designed for party wear.",
     "occasion": [
-      "casual",
-      "summer"
+      "party",
+      "evening"
     ],
-    "short_description": "Light pastel pink kurta in breathable linen blend, ideal for summer."
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 3,
+      "M": 5,
+      "L": 0,
+      "XL": 2
+    }
   },
   {
-    "sku": "SK-004",
-    "name": "Navy Blue Waistcoat Set",
-    "category": "waistcoat_set",
-    "fabric": "Cotton blend",
+    "sku": "SK-010",
+    "name": "Contemporary Sky Blue Pajama Set",
+    "category": "Pajama Set",
+    "fabric": "Cotton",
     "colors": [
-      "navy",
-      "blue"
+      "sky blue"
     ],
     "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 111.4,
+    "short_description": "contemporary sky blue pajama set designed for casual wear.",
+    "occasion": [
+      "casual",
+      "nightwear"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 6,
+      "M": 1,
+      "L": 3
+    }
+  },
+  {
+    "sku": "SK-011",
+    "name": "Printed Olive Green Lawn Suit",
+    "category": "Lawn Suit",
+    "fabric": "Lawn",
+    "colors": [
+      "olive green"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 38.9,
+    "short_description": "printed olive green lawn suit designed for casual wear.",
+    "occasion": [
+      "casual",
+      "daytime"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 2,
+      "M": 4,
+      "L": 6
+    }
+  },
+  {
+    "sku": "SK-012",
+    "name": "Classic Burgundy Shalwar Kameez",
+    "category": "Shalwar Kameez",
+    "fabric": "Cotton Blend",
+    "colors": [
+      "burgundy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 47.4,
+    "short_description": "classic burgundy shalwar kameez designed for festive wear.",
+    "occasion": [
+      "festive",
+      "evening"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 5,
+      "M": 0,
+      "L": 2
+    }
+  },
+  {
+    "sku": "SK-013",
+    "name": "Festive Peach Kurta",
+    "category": "Kurta",
+    "fabric": "Cotton",
+    "colors": [
+      "peach"
+    ],
+    "sizes": [
+      "S",
       "M",
       "L",
-      "XL",
-      "XXL"
+      "XL"
     ],
-    "price_eur": 79.9,
+    "price_eur": 55.9,
+    "short_description": "festive peach kurta designed for casual wear.",
+    "occasion": [
+      "casual",
+      "work"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
     "stock": {
+      "S": 1,
       "M": 3,
       "L": 5,
-      "XL": 2,
-      "XXL": 1
-    },
-    "care_instructions": "Dry clean recommended for best results.",
+      "XL": 0
+    }
+  },
+  {
+    "sku": "SK-014",
+    "name": "Handworked Charcoal Waistcoat Set",
+    "category": "Waistcoat Set",
+    "fabric": "Polyester Blend",
+    "colors": [
+      "charcoal"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 64.4,
+    "short_description": "handworked charcoal waistcoat set designed for formal wear.",
     "occasion": [
       "formal",
       "wedding"
     ],
-    "short_description": "Formal navy waistcoat set with matching trousers, great for weddings."
-  },
-  {
-    "sku": "SK-005",
-    "name": "Maroon Shawl with Gold Border",
-    "category": "shawl",
-    "fabric": "Wool blend",
-    "colors": [
-      "maroon",
-      "red",
-      "gold"
-    ],
-    "sizes": [
-      "one_size"
-    ],
-    "price_eur": 39.9,
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
     "stock": {
-      "one_size": 10
-    },
-    "care_instructions": "Dry clean or gentle hand wash, lay flat to dry.",
-    "occasion": [
-      "winter",
-      "festive"
-    ],
-    "short_description": "Warm maroon shawl with gold border, perfect for winter evenings."
+      "S": 4,
+      "M": 6,
+      "L": 1
+    }
   },
   {
-    "sku": "SK-006",
-    "name": "Green Printed Lawn Suit",
-    "category": "lawn_suit",
-    "fabric": "Lawn",
+    "sku": "SK-015",
+    "name": "Minimal Coral Anarkali Suit",
+    "category": "Anarkali Suit",
+    "fabric": "Chiffon",
     "colors": [
-      "green",
-      "printed"
+      "coral"
     ],
     "sizes": [
       "S",
       "M",
       "L"
     ],
-    "price_eur": 55.0,
+    "price_eur": 72.9,
+    "short_description": "minimal coral anarkali suit designed for festive wear.",
+    "occasion": [
+      "festive",
+      "party"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
     "stock": {
       "S": 0,
-      "M": 4,
-      "L": 6
-    },
-    "care_instructions": "Machine wash cold, hang dry, iron on reverse.",
-    "occasion": [
-      "casual",
-      "spring"
-    ],
-    "short_description": "Fresh green printed lawn suit, light and comfortable for spring."
+      "M": 2,
+      "L": 4
+    }
   },
   {
-    "sku": "SK-007",
-    "name": "Beige Bridal Lehenga",
-    "category": "lehenga",
-    "fabric": "Silk with heavy embroidery",
+    "sku": "SK-016",
+    "name": "Statement Mint Green Co-ord Set",
+    "category": "Co-ord Set",
+    "fabric": "Linen Blend",
     "colors": [
-      "beige",
-      "gold"
+      "mint green"
     ],
     "sizes": [
       "S",
       "M",
       "L"
     ],
-    "price_eur": 249.0,
-    "stock": {
-      "S": 1,
-      "M": 2,
-      "L": 1
-    },
-    "care_instructions": "Dry clean only, store in breathable garment bag.",
+    "price_eur": 81.4,
+    "short_description": "statement mint green co-ord set designed for casual wear.",
     "occasion": [
-      "bridal",
-      "wedding"
+      "casual",
+      "daytime"
     ],
-    "short_description": "Elegant beige bridal lehenga with intricate gold embroidery."
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 3,
+      "M": 5,
+      "L": 0
+    }
   },
   {
-    "sku": "SK-008",
-    "name": "Charcoal Grey Kurta Pajama",
-    "category": "kurta_pajama",
+    "sku": "SK-017",
+    "name": "Elegant Plum Kaftan",
+    "category": "Kaftan",
+    "fabric": "Viscose",
+    "colors": [
+      "plum"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 89.9,
+    "short_description": "elegant plum kaftan designed for resort wear.",
+    "occasion": [
+      "resort",
+      "casual"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 6,
+      "M": 1,
+      "L": 3,
+      "XL": 5
+    }
+  },
+  {
+    "sku": "SK-018",
+    "name": "Traditional Beige Gharara Set",
+    "category": "Gharara Set",
+    "fabric": "Jacquard",
+    "colors": [
+      "beige"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 98.4,
+    "short_description": "traditional beige gharara set designed for wedding wear.",
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 2,
+      "M": 4,
+      "L": 6
+    }
+  },
+  {
+    "sku": "SK-019",
+    "name": "Contemporary Cobalt Blue Maxi Dress",
+    "category": "Maxi Dress",
+    "fabric": "Georgette",
+    "colors": [
+      "cobalt blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 106.9,
+    "short_description": "contemporary cobalt blue maxi dress designed for party wear.",
+    "occasion": [
+      "party",
+      "evening"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 5,
+      "M": 0,
+      "L": 2
+    }
+  },
+  {
+    "sku": "SK-020",
+    "name": "Embroidered White Pajama Set",
+    "category": "Pajama Set",
     "fabric": "Cotton",
     "colors": [
-      "grey",
+      "white"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 115.4,
+    "short_description": "embroidered white pajama set designed for casual wear.",
+    "occasion": [
+      "casual",
+      "nightwear"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 1,
+      "M": 3,
+      "L": 5
+    }
+  },
+  {
+    "sku": "SK-021",
+    "name": "Classic Emerald Green Lawn Suit",
+    "category": "Lawn Suit",
+    "fabric": "Lawn",
+    "colors": [
+      "emerald green"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 42.9,
+    "short_description": "classic emerald green lawn suit designed for casual wear.",
+    "occasion": [
+      "casual",
+      "daytime"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 4,
+      "M": 6,
+      "L": 1,
+      "XL": 3
+    }
+  },
+  {
+    "sku": "SK-022",
+    "name": "Festive Maroon Shalwar Kameez",
+    "category": "Shalwar Kameez",
+    "fabric": "Cotton Blend",
+    "colors": [
+      "maroon"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 51.4,
+    "short_description": "festive maroon shalwar kameez designed for festive wear.",
+    "occasion": [
+      "festive",
+      "evening"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 0,
+      "M": 2,
+      "L": 4
+    }
+  },
+  {
+    "sku": "SK-023",
+    "name": "Handworked Ivory Kurta",
+    "category": "Kurta",
+    "fabric": "Cotton",
+    "colors": [
+      "ivory"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 59.9,
+    "short_description": "handworked ivory kurta designed for casual wear.",
+    "occasion": [
+      "casual",
+      "work"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 3,
+      "M": 5,
+      "L": 0
+    }
+  },
+  {
+    "sku": "SK-024",
+    "name": "Minimal Teal Waistcoat Set",
+    "category": "Waistcoat Set",
+    "fabric": "Polyester Blend",
+    "colors": [
+      "teal"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 68.4,
+    "short_description": "minimal teal waistcoat set designed for formal wear.",
+    "occasion": [
+      "formal",
+      "wedding"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 6,
+      "M": 1,
+      "L": 3
+    }
+  },
+  {
+    "sku": "SK-025",
+    "name": "Statement Mustard Anarkali Suit",
+    "category": "Anarkali Suit",
+    "fabric": "Chiffon",
+    "colors": [
+      "mustard"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 76.9,
+    "short_description": "statement mustard anarkali suit designed for festive wear.",
+    "occasion": [
+      "festive",
+      "party"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 2,
+      "M": 4,
+      "L": 6,
+      "XL": 1
+    }
+  },
+  {
+    "sku": "SK-026",
+    "name": "Elegant Lavender Co-ord Set",
+    "category": "Co-ord Set",
+    "fabric": "Linen Blend",
+    "colors": [
+      "lavender"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 85.4,
+    "short_description": "elegant lavender co-ord set designed for casual wear.",
+    "occasion": [
+      "casual",
+      "daytime"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 5,
+      "M": 0,
+      "L": 2
+    }
+  },
+  {
+    "sku": "SK-027",
+    "name": "Traditional Black Kaftan",
+    "category": "Kaftan",
+    "fabric": "Viscose",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 93.9,
+    "short_description": "traditional black kaftan designed for resort wear.",
+    "occasion": [
+      "resort",
+      "casual"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 1,
+      "M": 3,
+      "L": 5
+    }
+  },
+  {
+    "sku": "SK-028",
+    "name": "Contemporary Navy Blue Gharara Set",
+    "category": "Gharara Set",
+    "fabric": "Jacquard",
+    "colors": [
+      "navy blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 102.4,
+    "short_description": "contemporary navy blue gharara set designed for wedding wear.",
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 4,
+      "M": 6,
+      "L": 1
+    }
+  },
+  {
+    "sku": "SK-029",
+    "name": "Embroidered Rose Pink Maxi Dress",
+    "category": "Maxi Dress",
+    "fabric": "Georgette",
+    "colors": [
+      "rose pink"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 110.9,
+    "short_description": "embroidered rose pink maxi dress designed for party wear.",
+    "occasion": [
+      "party",
+      "evening"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 0,
+      "M": 2,
+      "L": 4,
+      "XL": 6
+    }
+  },
+  {
+    "sku": "SK-030",
+    "name": "Printed Sky Blue Pajama Set",
+    "category": "Pajama Set",
+    "fabric": "Cotton",
+    "colors": [
+      "sky blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 119.4,
+    "short_description": "printed sky blue pajama set designed for casual wear.",
+    "occasion": [
+      "casual",
+      "nightwear"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 3,
+      "M": 5,
+      "L": 0
+    }
+  },
+  {
+    "sku": "SK-031",
+    "name": "Festive Olive Green Lawn Suit",
+    "category": "Lawn Suit",
+    "fabric": "Lawn",
+    "colors": [
+      "olive green"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 46.9,
+    "short_description": "festive olive green lawn suit designed for casual wear.",
+    "occasion": [
+      "casual",
+      "daytime"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 6,
+      "M": 1,
+      "L": 3
+    }
+  },
+  {
+    "sku": "SK-032",
+    "name": "Handworked Burgundy Shalwar Kameez",
+    "category": "Shalwar Kameez",
+    "fabric": "Cotton Blend",
+    "colors": [
+      "burgundy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 55.4,
+    "short_description": "handworked burgundy shalwar kameez designed for festive wear.",
+    "occasion": [
+      "festive",
+      "evening"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 2,
+      "M": 4,
+      "L": 6
+    }
+  },
+  {
+    "sku": "SK-033",
+    "name": "Minimal Peach Kurta",
+    "category": "Kurta",
+    "fabric": "Cotton",
+    "colors": [
+      "peach"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 63.9,
+    "short_description": "minimal peach kurta designed for casual wear.",
+    "occasion": [
+      "casual",
+      "work"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 5,
+      "M": 0,
+      "L": 2,
+      "XL": 4
+    }
+  },
+  {
+    "sku": "SK-034",
+    "name": "Statement Charcoal Waistcoat Set",
+    "category": "Waistcoat Set",
+    "fabric": "Polyester Blend",
+    "colors": [
       "charcoal"
     ],
     "sizes": [
+      "S",
       "M",
-      "L",
-      "XL",
-      "XXL"
+      "L"
     ],
-    "price_eur": 52.0,
+    "price_eur": 72.4,
+    "short_description": "statement charcoal waistcoat set designed for formal wear.",
+    "occasion": [
+      "formal",
+      "wedding"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
     "stock": {
-      "M": 7,
-      "L": 8,
-      "XL": 4,
-      "XXL": 2
-    },
-    "care_instructions": "Machine wash normal, tumble dry low.",
+      "S": 1,
+      "M": 3,
+      "L": 5
+    }
+  },
+  {
+    "sku": "SK-035",
+    "name": "Elegant Coral Anarkali Suit",
+    "category": "Anarkali Suit",
+    "fabric": "Chiffon",
+    "colors": [
+      "coral"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 80.9,
+    "short_description": "elegant coral anarkali suit designed for festive wear.",
+    "occasion": [
+      "festive",
+      "party"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 4,
+      "M": 6,
+      "L": 1
+    }
+  },
+  {
+    "sku": "SK-036",
+    "name": "Traditional Mint Green Co-ord Set",
+    "category": "Co-ord Set",
+    "fabric": "Linen Blend",
+    "colors": [
+      "mint green"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 89.4,
+    "short_description": "traditional mint green co-ord set designed for casual wear.",
     "occasion": [
       "casual",
-      "everyday"
+      "daytime"
     ],
-    "short_description": "Comfortable charcoal grey kurta pajama for everyday wear."
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 0,
+      "M": 2,
+      "L": 4
+    }
+  },
+  {
+    "sku": "SK-037",
+    "name": "Contemporary Plum Kaftan",
+    "category": "Kaftan",
+    "fabric": "Viscose",
+    "colors": [
+      "plum"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 97.9,
+    "short_description": "contemporary plum kaftan designed for resort wear.",
+    "occasion": [
+      "resort",
+      "casual"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 3,
+      "M": 5,
+      "L": 0,
+      "XL": 2
+    }
+  },
+  {
+    "sku": "SK-038",
+    "name": "Embroidered Beige Gharara Set",
+    "category": "Gharara Set",
+    "fabric": "Jacquard",
+    "colors": [
+      "beige"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 106.4,
+    "short_description": "embroidered beige gharara set designed for wedding wear.",
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 6,
+      "M": 1,
+      "L": 3
+    }
+  },
+  {
+    "sku": "SK-039",
+    "name": "Printed Cobalt Blue Maxi Dress",
+    "category": "Maxi Dress",
+    "fabric": "Georgette",
+    "colors": [
+      "cobalt blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 114.9,
+    "short_description": "printed cobalt blue maxi dress designed for party wear.",
+    "occasion": [
+      "party",
+      "evening"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 2,
+      "M": 4,
+      "L": 6
+    }
+  },
+  {
+    "sku": "SK-040",
+    "name": "Classic White Pajama Set",
+    "category": "Pajama Set",
+    "fabric": "Cotton",
+    "colors": [
+      "white"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 123.4,
+    "short_description": "classic white pajama set designed for casual wear.",
+    "occasion": [
+      "casual",
+      "nightwear"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 5,
+      "M": 0,
+      "L": 2
+    }
+  },
+  {
+    "sku": "SK-041",
+    "name": "Handworked Emerald Green Lawn Suit",
+    "category": "Lawn Suit",
+    "fabric": "Lawn",
+    "colors": [
+      "emerald green"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 50.9,
+    "short_description": "handworked emerald green lawn suit designed for casual wear.",
+    "occasion": [
+      "casual",
+      "daytime"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 1,
+      "M": 3,
+      "L": 5,
+      "XL": 0
+    }
+  },
+  {
+    "sku": "SK-042",
+    "name": "Minimal Maroon Shalwar Kameez",
+    "category": "Shalwar Kameez",
+    "fabric": "Cotton Blend",
+    "colors": [
+      "maroon"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 59.4,
+    "short_description": "minimal maroon shalwar kameez designed for festive wear.",
+    "occasion": [
+      "festive",
+      "evening"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 4,
+      "M": 6,
+      "L": 1
+    }
+  },
+  {
+    "sku": "SK-043",
+    "name": "Statement Ivory Kurta",
+    "category": "Kurta",
+    "fabric": "Cotton",
+    "colors": [
+      "ivory"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 67.9,
+    "short_description": "statement ivory kurta designed for casual wear.",
+    "occasion": [
+      "casual",
+      "work"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 0,
+      "M": 2,
+      "L": 4
+    }
+  },
+  {
+    "sku": "SK-044",
+    "name": "Elegant Teal Waistcoat Set",
+    "category": "Waistcoat Set",
+    "fabric": "Polyester Blend",
+    "colors": [
+      "teal"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 76.4,
+    "short_description": "elegant teal waistcoat set designed for formal wear.",
+    "occasion": [
+      "formal",
+      "wedding"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 3,
+      "M": 5,
+      "L": 0
+    }
+  },
+  {
+    "sku": "SK-045",
+    "name": "Traditional Mustard Anarkali Suit",
+    "category": "Anarkali Suit",
+    "fabric": "Chiffon",
+    "colors": [
+      "mustard"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 84.9,
+    "short_description": "traditional mustard anarkali suit designed for festive wear.",
+    "occasion": [
+      "festive",
+      "party"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 6,
+      "M": 1,
+      "L": 3,
+      "XL": 5
+    }
+  },
+  {
+    "sku": "SK-046",
+    "name": "Contemporary Lavender Co-ord Set",
+    "category": "Co-ord Set",
+    "fabric": "Linen Blend",
+    "colors": [
+      "lavender"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 93.4,
+    "short_description": "contemporary lavender co-ord set designed for casual wear.",
+    "occasion": [
+      "casual",
+      "daytime"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 2,
+      "M": 4,
+      "L": 6
+    }
+  },
+  {
+    "sku": "SK-047",
+    "name": "Embroidered Black Kaftan",
+    "category": "Kaftan",
+    "fabric": "Viscose",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 101.9,
+    "short_description": "embroidered black kaftan designed for resort wear.",
+    "occasion": [
+      "resort",
+      "casual"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 5,
+      "M": 0,
+      "L": 2
+    }
+  },
+  {
+    "sku": "SK-048",
+    "name": "Printed Navy Blue Gharara Set",
+    "category": "Gharara Set",
+    "fabric": "Jacquard",
+    "colors": [
+      "navy blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 110.4,
+    "short_description": "printed navy blue gharara set designed for wedding wear.",
+    "occasion": [
+      "wedding",
+      "festive"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 1,
+      "M": 3,
+      "L": 5
+    }
+  },
+  {
+    "sku": "SK-049",
+    "name": "Classic Rose Pink Maxi Dress",
+    "category": "Maxi Dress",
+    "fabric": "Georgette",
+    "colors": [
+      "rose pink"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "price_eur": 118.9,
+    "short_description": "classic rose pink maxi dress designed for party wear.",
+    "occasion": [
+      "party",
+      "evening"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 4,
+      "M": 6,
+      "L": 1,
+      "XL": 3
+    }
+  },
+  {
+    "sku": "SK-050",
+    "name": "Festive Sky Blue Pajama Set",
+    "category": "Pajama Set",
+    "fabric": "Cotton",
+    "colors": [
+      "sky blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ],
+    "price_eur": 127.4,
+    "short_description": "festive sky blue pajama set designed for casual wear.",
+    "occasion": [
+      "casual",
+      "nightwear"
+    ],
+    "care_instructions": "Follow the care label. Hand wash cold or dry clean for embellished pieces; do not bleach.",
+    "stock": {
+      "S": 0,
+      "M": 2,
+      "L": 4
+    }
   }
 ]
