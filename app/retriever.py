@@ -236,12 +236,12 @@ class StoreRetriever:
         """
         query_vec = self.encoder.encode(query, normalize_embeddings=True).tolist()
 
-        search_result = self.client.search(
+        search_result = self.client.query_points(
             collection_name=self.collection_name,
-            query_vector=query_vec,
+            query=query_vec,
             limit=top_k,
             query_filter=filters,
-        )
+        ).points
 
         results: List[Dict[str, Any]] = []
         for point in search_result:
