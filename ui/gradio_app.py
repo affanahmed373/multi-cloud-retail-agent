@@ -72,6 +72,10 @@ def build_gradio_app(
                     f"Guardrail blocked ({guardrail.get('stage', '?')}: "
                     f"{guardrail.get('code', 'unknown')})"
                 )
+            elif guardrail.get("pii_redacted_input") or guardrail.get("pii_redacted_output"):
+                pii = guardrail.get("pii_detected") or []
+                if pii:
+                    extras.append("PII redacted: " + ", ".join(pii))
             if sources:
                 extras.append("Sources: " + ", ".join(str(s) for s in sources))
             if tool_info:

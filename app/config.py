@@ -44,5 +44,10 @@ class Config:
     QDRANT_URL: Optional[str] = os.getenv("QDRANT_URL")
     QDRANT_API_KEY: Optional[str] = os.getenv("QDRANT_API_KEY")
 
+    # LangChain PIIMiddleware strategies: block | redact | mask | hash
+    PII_INPUT_STRATEGY: str = os.getenv("PII_INPUT_STRATEGY", "redact")
+    PII_OUTPUT_STRATEGY: str = os.getenv("PII_OUTPUT_STRATEGY", "redact")
+    PII_CREDIT_CARD_STRATEGY: str = os.getenv("PII_CREDIT_CARD_STRATEGY", "mask")
+
 
 config = Config()

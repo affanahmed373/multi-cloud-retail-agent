@@ -5,11 +5,14 @@ This module:
 - Defines the RetailAgent class.
 - Handles query processing, retrieval, tool calls, and LLM generation.
 - Works with any LLMProvider (mock, Bedrock, Vertex).
+
+Guardrails (scope + PII) run in LangGraph nodes via LangChain middleware — see
+app/langchain_guardrails.py and app/graph.py.
 """
 
 from typing import Dict, Any, Optional, List
 
-from .guardrails import check_input, check_output, scoped_system_prompt
+from .langchain_guardrails import scoped_system_prompt
 from .llm_providers import LLMProvider
 from .tools import check_inventory, get_policy
 from .retriever import StoreRetriever
@@ -23,7 +26,6 @@ class RetailAgent:
     - Answer policy questions using RAG over policies.
     - Answer inventory/product questions using RAG + tools.
     - Provide recommendations based on context.
-    - Apply local input/output guardrails before and after generation.
     """
 
     def __init__(
@@ -39,22 +41,11 @@ class RetailAgent:
         Process a user query and return an answer with sources.
 
         Steps:
-        0. Input guardrails.
         1. Retrieve relevant context (products + policies).
         2. Optionally call tools (inventory, policy lookup).
         3. Build a prompt for the LLM.
-        4. Generate answer, then output guardrails.
+        4. Generate and return the answer.
         """
-        blocked = check_input(query)
-        if not blocked.allowed:
-            return {
-                "answer": blocked.message or "Request blocked by guardrails.",
-                "sources": [],
-                "context_chunks": [],
-                "tool_info": "",
-                "guardrail": {"blocked": True, "stage": "input", "code": blocked.code},
-            }
-
         # 1. Retrieve context
         context_chunks: List[Dict[str, Any]] = []
         if self.retriever:
@@ -65,7 +56,6 @@ class RetailAgent:
         q_lower = query.lower()
 
         if "stock" in q_lower or "available" in q_lower or "size" in q_lower:
-            # Try to infer size/color from query (very basic)
             size = None
             color = None
             if " m " in q_lower or "medium" in q_lower:
@@ -121,22 +111,12 @@ Question: {query}
 
 Answer:"""
 
-        # 4. Generate answer + output guardrails
+        # 4. Generate answer
         answer = self.llm.generate(prompt, system_prompt=system_prompt)
-        out = check_output(answer)
-        if not out.allowed:
-            return {
-                "answer": out.message or "Request blocked by guardrails.",
-                "sources": [c["id"] for c in context_chunks],
-                "context_chunks": context_chunks,
-                "tool_info": tool_info,
-                "guardrail": {"blocked": True, "stage": "output", "code": out.code},
-            }
 
         return {
             "answer": answer,
             "sources": [c["id"] for c in context_chunks],
             "context_chunks": context_chunks,
             "tool_info": tool_info,
-            "guardrail": {"blocked": False},
         }

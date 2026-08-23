@@ -1,22 +1,13 @@
 """
-Local safety guardrails for the retail agent.
+Policy patterns and scope rules for retail guardrails.
 
-Applies to every provider (mock, OpenAI, DeepSeek, Bedrock, Vertex):
-- Input: length, prompt injection / jailbreak, clearly off-topic or harmful asks
-- Output: basic leak / off-scope checks before returning an answer
-
-Bedrock-native Guardrails (when configured) are applied separately in
-BedrockLLMProvider via the Converse API.
+Orchestration uses LangChain AgentMiddleware + PIIMiddleware in
+app/langchain_guardrails.py, wired as LangGraph nodes in app/graph.py.
 """
 
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
-from typing import Optional
-
-MAX_QUERY_CHARS = 2000
-MAX_ANSWER_CHARS = 8000
 
 REFUSAL_OFF_TOPIC = (
     "I can only help with this clothing store — products, sizes, stock, "
@@ -32,11 +23,6 @@ REFUSAL_UNSAFE = (
 REFUSAL_INJECTION = (
     "I can't follow instructions that try to override my role. "
     "Ask me about our products, stock, or store policies instead."
-)
-
-REFUSAL_OUTPUT = (
-    "I couldn't produce a safe answer for that. "
-    "Please rephrase your question about our store, products, or policies."
 )
 
 # Attempts to override system behavior
@@ -119,20 +105,6 @@ _RETAIL_KEYWORDS = [
     "sku",
 ]
 
-_LEAK_PATTERNS = [
-    r"LANGFUSE_(SECRET|PUBLIC)_KEY",
-    r"OPENAI_API_KEY|DEEPSEEK_API_KEY|QDRANT_API_KEY",
-    r"sk-[a-zA-Z0-9]{20,}",
-    r"aws_secret_access_key",
-]
-
-
-@dataclass
-class GuardrailResult:
-    allowed: bool
-    code: Optional[str] = None  # e.g. injection, unsafe, off_topic, too_long
-    message: Optional[str] = None
-
 
 def _matches_any(text: str, patterns: list[str]) -> bool:
     return any(re.search(p, text, flags=re.IGNORECASE) for p in patterns)
@@ -141,74 +113,6 @@ def _matches_any(text: str, patterns: list[str]) -> bool:
 def _has_retail_signal(text: str) -> bool:
     lower = text.lower()
     return any(k in lower for k in _RETAIL_KEYWORDS)
-
-
-def check_input(query: str) -> GuardrailResult:
-    """Validate user input before retrieval / generation."""
-    if query is None or not str(query).strip():
-        return GuardrailResult(
-            allowed=False,
-            code="empty",
-            message="Please enter a question about our store or products.",
-        )
-
-    text = str(query).strip()
-    if len(text) > MAX_QUERY_CHARS:
-        return GuardrailResult(
-            allowed=False,
-            code="too_long",
-            message=f"Please keep your question under {MAX_QUERY_CHARS} characters.",
-        )
-
-    if _matches_any(text, _INJECTION_PATTERNS):
-        return GuardrailResult(
-            allowed=False,
-            code="injection",
-            message=REFUSAL_INJECTION,
-        )
-
-    if _matches_any(text, _UNSAFE_PATTERNS):
-        return GuardrailResult(
-            allowed=False,
-            code="unsafe",
-            message=REFUSAL_UNSAFE,
-        )
-
-    if _matches_any(text, _OFF_TOPIC_PATTERNS) and not _has_retail_signal(text):
-        return GuardrailResult(
-            allowed=False,
-            code="off_topic",
-            message=REFUSAL_OFF_TOPIC,
-        )
-
-    return GuardrailResult(allowed=True)
-
-
-def check_output(answer: str) -> GuardrailResult:
-    """Validate model output before returning to the user."""
-    if answer is None or not str(answer).strip():
-        return GuardrailResult(
-            allowed=False,
-            code="empty_output",
-            message=REFUSAL_OUTPUT,
-        )
-
-    text = str(answer).strip()
-    if len(text) > MAX_ANSWER_CHARS:
-        return GuardrailResult(
-            allowed=False,
-            code="output_too_long",
-            message=REFUSAL_OUTPUT,
-        )
-
-    if _matches_any(text, _LEAK_PATTERNS):
-        return GuardrailResult(
-            allowed=False,
-            code="leak",
-            message=REFUSAL_OUTPUT,
-        )
-
-    return GuardrailResult(allowed=True)
 
 
 def scoped_system_prompt(base: str) -> str:
