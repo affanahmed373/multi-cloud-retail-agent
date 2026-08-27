@@ -2,10 +2,10 @@
 Evaluation runner with Langfuse experiments and LLM-as-a-judge.
 
 Usage:
-  uv run python -m eval.run_eval
-  uv run python -m eval.run_eval --provider mock --judge-provider openai
-  uv run python -m eval.run_eval --sync-dataset
-  uv run python -m eval.run_eval --no-judge --output eval/results.json
+    uv run python -m backend.eval.run_eval
+    uv run python -m backend.eval.run_eval --provider mock --judge-provider openai
+    uv run python -m backend.eval.run_eval --sync-dataset
+    uv run python -m backend.eval.run_eval --no-judge --output backend/eval/results.json
 
 The golden Q&A set (eval/golden_qa.json) and rubric (eval/rubric.yaml) are sufficient
 to start LLM-as-a-judge eval: 20 items cover policy, inventory, and recommendations,
@@ -25,8 +25,8 @@ from dotenv import load_dotenv
 from langfuse import Evaluation, Langfuse, get_client
 from langfuse.experiment import LocalExperimentItem
 
-from eval.judge import get_judge
-from eval.rubric_loader import load_rubric
+from backend.eval.judge import get_judge
+from backend.eval.rubric_loader import load_rubric
 
 load_dotenv()
 
@@ -121,7 +121,7 @@ def make_agent_task(agent_provider: str):
     """Task function for Langfuse run_experiment — runs full LangGraph pipeline."""
 
     def task(*, item, **kwargs) -> Dict[str, Any]:
-        from api.main import run_query
+        from backend.api.main import run_query
 
         question = _unwrap_input(_item_field(item, "input"))
         result = run_query(question, provider=agent_provider)
@@ -286,7 +286,7 @@ def run_eval(
 
 
 def main() -> None:
-    from app.config import config
+    from backend.app.config import config
 
     parser = argparse.ArgumentParser(description="Run retail agent eval with Langfuse + LLM judge")
     parser.add_argument(

@@ -11,14 +11,14 @@ import os
 import re
 from typing import Any, Dict, List, Optional
 
-from app.config import config
-from app.llm_providers import (
+from backend.app.config import config
+from backend.app.llm_providers import (
     DeepSeekLLMProvider,
     GeminiLLMProvider,
     LLMProvider,
     OpenAILLMProvider,
 )
-from eval.rubric_loader import format_rubric_for_prompt, load_rubric
+from backend.eval.rubric_loader import format_rubric_for_prompt, load_rubric
 
 
 def _make_judge_llm(provider: Optional[str] = None, model: Optional[str] = None) -> LLMProvider:
@@ -187,7 +187,7 @@ _judge_cache: Dict[str, LLMJudge] = {}
 
 
 def get_judge(provider: Optional[str] = None, model: Optional[str] = None) -> LLMJudge:
-    from app.config import config
+    from backend.app.config import config
 
     key = f"{provider or config.JUDGE_PROVIDER}:{model or config.JUDGE_MODEL or 'default'}"
     if key not in _judge_cache:

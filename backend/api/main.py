@@ -17,10 +17,10 @@ from fastapi import FastAPI
 from langfuse import get_client
 from langfuse.langchain import CallbackHandler
 
-from app.agent import RetailAgent
-from app.config import config
-from app.graph import build_graph
-from app.llm_providers import (
+from backend.app.agent import RetailAgent
+from backend.app.config import config
+from backend.app.graph import build_graph
+from backend.app.llm_providers import (
     BedrockLLMProvider,
     DeepSeekLLMProvider,
     GeminiLLMProvider,
@@ -28,15 +28,15 @@ from app.llm_providers import (
     OpenAILLMProvider,
     VertexLLMProvider,
 )
-from app.provider_registry import (
+from backend.app.provider_registry import (
     PROVIDER_SPECS,
     default_provider_choice,
     is_provider_configured,
     normalize_provider,
 )
-from app.retriever import StoreRetriever
-from app.schemas import ChatRequest
-from ui.gradio_app import build_gradio_app
+from backend.app.retriever import StoreRetriever
+from backend.app.schemas import ChatRequest
+from frontend.ui.gradio_app import build_gradio_app
 
 LANGFUSE_PUBLIC_KEY = os.getenv("LANGFUSE_PUBLIC_KEY")
 LANGFUSE_HOST = os.getenv("LANGFUSE_HOST") or os.getenv("LANGFUSE_BASE_URL")

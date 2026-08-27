@@ -32,16 +32,16 @@ User → Gradio /ui  or  FastAPI /chat
 
 | Module | Role |
 |--------|------|
-| `app/agent.py` | `RetailAgent`: retrieval → tools → prompt → LLM |
-| `app/graph.py` | LangGraph pipeline with input/output guardrail nodes |
-| `app/langchain_guardrails.py` | LangChain `PIIMiddleware` + custom scope middleware |
-| `app/guardrails.py` | Scope/injection/off-topic policy patterns |
-| `app/retriever.py` | Qdrant + `sentence-transformers` semantic search over products & policies |
-| `app/llm_providers.py` | Pluggable providers (mock, OpenAI, DeepSeek, Gemini, Vertex, Bedrock) |
-| `app/provider_registry.py` | Provider list, labels, and config checks for API + Gradio |
-| `app/tools.py` | Inventory checks and policy lookup helpers |
-| `api/main.py` | FastAPI app: `/chat`, `/health`, Gradio UI at `/ui` |
-| `ui/gradio_app.py` | Chat UI with per-question provider selection |
+| `backend/app/agent.py` | `RetailAgent`: retrieval → tools → prompt → LLM |
+| `backend/app/graph.py` | LangGraph pipeline with input/output guardrail nodes |
+| `backend/app/langchain_guardrails.py` | LangChain `PIIMiddleware` + custom scope middleware |
+| `backend/app/guardrails.py` | Scope/injection/off-topic policy patterns |
+| `backend/app/retriever.py` | Qdrant + `sentence-transformers` semantic search over products & policies |
+| `backend/app/llm_providers.py` | Pluggable providers (mock, OpenAI, DeepSeek, Gemini, Vertex, Bedrock) |
+| `backend/app/provider_registry.py` | Provider list, labels, and config checks for API + Gradio |
+| `backend/app/tools.py` | Inventory checks and policy lookup helpers |
+| `backend/api/main.py` | FastAPI app: `/chat`, `/health`, Gradio UI at `/ui` |
+| `frontend/ui/gradio_app.py` | Chat UI with per-question provider selection |
 
 **Data**
 
@@ -50,8 +50,9 @@ User → Gradio /ui  or  FastAPI /chat
 
 **Cloud & infra (planned)**
 
-- `terraform/aws_bedrock.tf`, `terraform/gcp_vertex.tf` – IAM and model setup.
-- `terraform/aws_apprunner.tf`, `terraform/gcp_cloudrun.tf` – deployment scaffolding.
+- `terraform/aws/` – AWS Bedrock IAM and App Runner infrastructure.
+- `terraform/google-cloud/` – Vertex AI IAM and Cloud Run infrastructure.
+- `deployments/aws/` and `deployments/google-cloud/` – cloud deployment notes.
 
 ## LLM providers
 
@@ -119,7 +120,7 @@ QDRANT_API_KEY=your-qdrant-api-key
 **Run**
 
 ```bash
-uv run uvicorn api.main:app --reload
+uv run uvicorn backend.api.main:app --reload
 ```
 
 **Endpoints**
@@ -213,13 +214,13 @@ The repo is structured for cost‑aware, incremental demos:
 
 ```bash
 # Full eval: agent answers + judge scores logged to Langfuse Experiments
-uv run python -m eval.run_eval --provider mock --judge-provider openai
+uv run python -m backend.eval.run_eval --provider mock --judge-provider openai
 
 # Upload golden set to Langfuse Datasets (optional, for UI experiments)
-uv run python -m eval.run_eval --sync-dataset
+uv run python -m backend.eval.run_eval --sync-dataset
 
 # Agent only, no judge (facts heuristic still runs)
-uv run python -m eval.run_eval --provider openai --no-judge
+uv run python -m backend.eval.run_eval --provider openai --no-judge
 ```
 
 Requires `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and a judge API key (`OPENAI_API_KEY` by default via `JUDGE_PROVIDER=openai`).
