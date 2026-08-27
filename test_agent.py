@@ -4,9 +4,9 @@ Simple test script for the agent.
 Run this to quickly test the agent with a few sample queries.
 """
 
-from backend.app.agent import RetailAgent
-from backend.app.llm_providers import MockLLMProvider
-from backend.app.retriever import StoreRetriever
+from app.agent import RetailAgent
+from app.llm_providers import MockLLMProvider
+from retriever import StoreRetriever
 
 
 def main():

@@ -10,4 +10,4 @@ ENV GRADIO_SERVER_NAME="0.0.0.0"
 ENV GRADIO_SERVER_PORT=7860
 
 EXPOSE 7860
-CMD ["uvicorn", "backend.api.main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "7860"]

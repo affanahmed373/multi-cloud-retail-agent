@@ -1,1 +1,0 @@
-"""Frontend applications for the multi-cloud retail agent."""

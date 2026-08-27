@@ -11,7 +11,7 @@ from typing import Callable, List
 
 import gradio as gr
 
-from backend.app.provider_registry import (
+from app.provider_registry import (
     default_provider_choice,
     normalize_provider,
     provider_choices,
