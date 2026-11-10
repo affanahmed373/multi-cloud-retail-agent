@@ -12,12 +12,20 @@ Proves: hybrid search (BM25 + dense), cross-encoder reranking.
 - [ ] Run `rag-agent-evals` for all three modes and put the score table in the README.
 Done when: README shows a dense vs hybrid vs hybrid+rerank comparison.
 
-## 2. Live deployment (priority: high)
-Proves: production deployment, public demo link for the CV.
-- [ ] Deploy the Gradio UI + FastAPI to Cloud Run (or AWS App Runner) with Qdrant Cloud free tier.
+## 2. Live demo on Hugging Face Spaces (priority: highest)
+Proves: a deployed agent a recruiter can try, public demo link for the CV.
+- [ ] Create a Docker Space from the existing `Dockerfile` (it already serves on port 7860). Send `/` to `/ui` so the Space opens on the chat.
+- [ ] Use in-memory Qdrant (`QdrantClient(":memory:")`) when `QDRANT_URL` is empty and index `data/` at startup, so the Space needs no database.
+- [ ] One cheap hosted model (DeepSeek or Gemini Flash) as the default, key stored as a Space secret. Keep `mock` as the fallback and list only providers that have a key.
+- [ ] Check the app starts without Langfuse keys.
+- [ ] Rate limit per session and cap question length so the public demo cannot run up costs.
+- [ ] Example question buttons: stock, returns, size advice, and one off-topic question the guardrail blocks.
+- [ ] "Try it" link and a short GIF at the top of the README.
+Done when: the Space link works on a phone and is in the README, the profile README and the CV.
+
+Later, for the cloud claim:
+- [ ] Deploy the same image to Cloud Run (or AWS App Runner) with Qdrant Cloud free tier.
 - [ ] Finish the `terraform/` module for that target; remove "planned" from the README only for what is really deployed.
-- [ ] Rate limit and a cheap default model so the public demo cannot run up costs.
-Done when: a working URL is in the README and the CV.
 
 ## 3. MCP server for the catalog (priority: high)
 Proves: building an MCP server, not only using MCP tools.
@@ -50,5 +58,20 @@ Done when: `LLM_PROVIDER=vllm` works locally with docker compose.
 Proves: multimodal retrieval.
 - [ ] CLIP image embeddings of product photos in a second Qdrant vector; "find similar" from a customer photo.
 
-## 8. Repo hygiene
+## 8. Azure OpenAI provider (priority: medium)
+Proves: Azure OpenAI in public code, so the Azure CV version links an agent that runs on Azure.
+- [ ] Add `azure-openai` to `provider_registry.py` and `llm_providers.py` (`AzureChatOpenAI`; endpoint, deployment name and API version from `.env`).
+- [ ] Route it through `ai-governance-gateway`, which already approves `azure-openai` and holds the Azure Terraform (Key Vault, managed identity, Log Analytics). Do not add a third Terraform stack here.
+- [ ] Add it to the provider comparison in `rag-agent-evals`.
+Done when: `LLM_PROVIDER=azure-openai` answers the golden set and the README lists seven providers.
+
+## 9. Size advice and returns (priority: low)
+Proves: tool calling over structured shop rules, not only retrieval.
+- [ ] `size_advice` tool: map Pakistani sizes (S-XL, chest and length in inches) to EU sizes from `size_guide_policy.md`, and explain stitched vs unstitched suits.
+- [ ] Questions on the 14-day withdrawal right (Widerrufsrecht) answered from `returns_policy.md`, with the policy section cited.
+- [ ] Add both question types to `rag-agent-evals`.
+
+## 10. Repo hygiene
 - [ ] GitHub Actions: lint + pytest on every push; move `test_agent.py` into `tests/`.
+- [ ] Move `backend/eval/` into `rag-agent-evals` so the golden set and judge live in one place.
+- [ ] Name: keep `multi-cloud-retail-agent` once at least one cloud deployment is live and Azure OpenAI is added, so the name is true. Otherwise rename to `clothing-store-agent` (GitHub redirects the old URL; never reuse the old name afterwards).
