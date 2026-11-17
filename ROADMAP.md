@@ -3,6 +3,11 @@
 Planned improvements. Each item lists the skill it proves and what "done" means.
 Add the skill to the CV only after the item is pushed.
 
+## Frontend showcase and hosting
+- Frontend: **Gradio** (`frontend/ui/gradio_app.py`), kept. A Python chat UI is enough here; the TypeScript showcase is in `ai-governance-gateway`.
+- Demo hosting: Hugging Face Docker Space, free CPU tier; it sleeps when idle and wakes on the next visit (section 2).
+- Cloud: Google Cloud Run with minimum instances 0, so nothing is billed while idle. AWS App Runner bills provisioned memory while idle, so it comes after Cloud Run, not before.
+
 ## 1. Hybrid search + reranking (priority: high)
 Proves: hybrid search (BM25 + dense), cross-encoder reranking.
 - [ ] Add a sparse BM25 vector next to the dense `all-MiniLM-L6-v2` vector in `backend/app/retriever.py`
@@ -24,7 +29,7 @@ Proves: a deployed agent a recruiter can try, public demo link for the CV.
 Done when: the Space link works on a phone and is in the README, the profile README and the CV.
 
 Later, for the cloud claim:
-- [ ] Deploy the same image to Cloud Run (or AWS App Runner) with Qdrant Cloud free tier.
+- [ ] Deploy the same image to Cloud Run (minimum instances 0) with Qdrant Cloud free tier.
 - [ ] Finish the `terraform/` module for that target; remove "planned" from the README only for what is really deployed.
 
 ## 3. MCP server for the catalog (priority: high)
