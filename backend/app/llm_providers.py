@@ -296,6 +296,84 @@ class BedrockLLMProvider(LLMProvider):
         return content[0]["text"]
 
 
+class GovernanceGatewayLLMProvider(LLMProvider):
+    """
+    Send every generate() call through ai-governance-gateway POST /v1/chat.
+
+    The gateway checks the approved model list, runs prompt-injection and PII
+    masking, writes an audit line, then returns a response (stub until a real
+    model backend is wired behind the gateway).
+    """
+
+    def __init__(
+        self,
+        base_url: Optional[str] = None,
+        model: Optional[str] = None,
+        caller: Optional[str] = None,
+        environment: Optional[str] = None,
+        data_class: Optional[str] = None,
+        timeout: float = 30.0,
+    ) -> None:
+        self.base_url = (
+            base_url
+            or os.getenv("GOVERNANCE_GATEWAY_URL")
+            or "http://127.0.0.1:8000"
+        ).rstrip("/")
+        self.model = model or os.getenv("GOVERNANCE_GATEWAY_MODEL", "gpt-4o-mini-eu")
+        self.caller = caller or os.getenv(
+            "GOVERNANCE_GATEWAY_CALLER", "cloth-shop-agent"
+        )
+        self.environment = environment or os.getenv(
+            "GOVERNANCE_GATEWAY_ENVIRONMENT", "dev"
+        )
+        self.data_class = data_class or os.getenv(
+            "GOVERNANCE_GATEWAY_DATA_CLASS", "internal"
+        )
+        self.timeout = timeout
+
+    def generate(
+        self,
+        prompt: str,
+        system_prompt: Optional[str] = None,
+        **kwargs: Any,
+    ) -> str:
+        text = prompt if not system_prompt else f"{system_prompt}\n\n{prompt}"
+        response = requests.post(
+            f"{self.base_url}/v1/chat",
+            headers={"Content-Type": "application/json"},
+            json={
+                "model": self.model,
+                "prompt": text,
+                "environment": self.environment,
+                "data_class": self.data_class,
+                "caller": self.caller,
+            },
+            timeout=self.timeout,
+        )
+        if response.status_code == 403:
+            detail = _gateway_detail(response)
+            raise PermissionError(f"governance_gateway_denied:{detail}")
+        if response.status_code == 400:
+            detail = _gateway_detail(response)
+            raise ValueError(f"governance_gateway_rejected:{detail}")
+        response.raise_for_status()
+        data = response.json()
+        answer = data.get("response")
+        if not answer:
+            raise ValueError("governance_gateway returned an empty response.")
+        return answer
+
+
+def _gateway_detail(response: requests.Response) -> str:
+    try:
+        payload = response.json()
+    except ValueError:
+        return response.text or str(response.status_code)
+    if isinstance(payload, dict) and "detail" in payload:
+        return str(payload["detail"])
+    return str(payload)
+
+
 class VertexLLMProvider(LLMProvider):
     """
     GCP Vertex AI Gemini provider.

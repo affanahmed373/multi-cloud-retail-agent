@@ -49,6 +49,15 @@ PROVIDER_SPECS: List[Dict[str, Any]] = [
         "description": "Claude/Nova on Bedrock via AWS credentials",
         "env_any": ["AWS_ACCESS_KEY_ID", "AWS_PROFILE", "AWS_REGION"],
     },
+    {
+        "id": "gateway",
+        "label": "AI Governance Gateway",
+        "description": (
+            "Route LLM calls through ai-governance-gateway /v1/chat "
+            "(GOVERNANCE_GATEWAY_URL, default http://127.0.0.1:8000)"
+        ),
+        "always_available": True,
+    },
 ]
 
 # UI/API aliases

@@ -65,8 +65,9 @@ Proves: multimodal retrieval.
 
 ## 8. Azure OpenAI provider (priority: medium)
 Proves: Azure OpenAI in public code, so the Azure CV version links an agent that runs on Azure.
+- [x] Add a `gateway` provider that routes every LLM `generate()` through `ai-governance-gateway` `POST /v1/chat` (`GOVERNANCE_GATEWAY_URL`).
 - [ ] Add `azure-openai` to `provider_registry.py` and `llm_providers.py` (`AzureChatOpenAI`; endpoint, deployment name and API version from `.env`).
-- [ ] Route it through `ai-governance-gateway`, which already approves `azure-openai` and holds the Azure Terraform (Key Vault, managed identity, Log Analytics). Do not add a third Terraform stack here.
+- [ ] Point that provider (or the gateway) at a real Azure OpenAI deployment behind the gateway. Do not add a third Terraform stack here.
 - [ ] Add it to the provider comparison in `rag-agent-evals`.
 Done when: `LLM_PROVIDER=azure-openai` answers the golden set and the README lists seven providers.
 

@@ -64,8 +64,30 @@ User → Gradio /ui  or  FastAPI /chat
 | Gemini (Google AI) | `gemini` | `GEMINI_API_KEY` or `GOOGLE_API_KEY` |
 | Vertex AI (GCP Gemini) | `vertex` | `VERTEX_PROJECT_ID` + GCP credentials |
 | AWS Bedrock | `bedrock` | AWS credentials; optional `BEDROCK_GUARDRAIL_ID` |
+| AI Governance Gateway | `gateway` | gateway running; optional `GOVERNANCE_GATEWAY_URL` (default `http://127.0.0.1:8000`) |
 
 Set the default with `LLM_PROVIDER` in `.env`. The Gradio UI at `/ui` lets you pick any provider per question.
+
+### Route LLM calls through the governance gateway
+
+Start [ai-governance-gateway](https://github.com/affanahmed373/ai-governance-gateway), then point this agent at it:
+
+```bash
+# in ai-governance-gateway
+uvicorn app.main:app --reload
+
+# in this repo
+LLM_PROVIDER=gateway
+GOVERNANCE_GATEWAY_URL=http://127.0.0.1:8000
+GOVERNANCE_GATEWAY_MODEL=gpt-4o-mini-eu
+GOVERNANCE_GATEWAY_CALLER=cloth-shop-agent
+```
+
+Every `generate()` call becomes `POST /v1/chat` on the gateway. The gateway checks the approved model, runs prompt-injection and PII masking, writes an audit line (caller, model, decision, prompt hash), and returns a stub answer until a real model sits behind it. A denied model or injection attempt raises an error in this agent.
+
+```bash
+uv run python -m unittest tests.test_gateway_provider -v
+```
 
 ## Guardrails
 
@@ -239,7 +261,7 @@ Scores appear in Langfuse under **Experiments** (per-run item scores) and linked
 - **Backend**: FastAPI, Pydantic, Uvicorn, Gradio
 - **Agent**: LangGraph, LangChain middleware (`PIIMiddleware`)
 - **RAG**: Qdrant, sentence-transformers (`all-MiniLM-L6-v2`), rank-bm25 (legacy/local)
-- **LLMs**: OpenAI, DeepSeek, Gemini API, GCP Vertex AI, AWS Bedrock, mock
+- **LLMs**: OpenAI, DeepSeek, Gemini API, GCP Vertex AI, AWS Bedrock, mock, ai-governance-gateway
 - **Observability**: Langfuse
 - **Infra (planned)**: Terraform for AWS Bedrock / App Runner and GCP Vertex / Cloud Run
 

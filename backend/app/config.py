@@ -43,6 +43,23 @@ class Config:
         "GOOGLE_API_KEY"
     )
 
+    # ai-governance-gateway (LLM_PROVIDER=gateway)
+    GOVERNANCE_GATEWAY_URL: str = os.getenv(
+        "GOVERNANCE_GATEWAY_URL", "http://127.0.0.1:8000"
+    )
+    GOVERNANCE_GATEWAY_MODEL: str = os.getenv(
+        "GOVERNANCE_GATEWAY_MODEL", "gpt-4o-mini-eu"
+    )
+    GOVERNANCE_GATEWAY_CALLER: str = os.getenv(
+        "GOVERNANCE_GATEWAY_CALLER", "cloth-shop-agent"
+    )
+    GOVERNANCE_GATEWAY_ENVIRONMENT: str = os.getenv(
+        "GOVERNANCE_GATEWAY_ENVIRONMENT", "dev"
+    )
+    GOVERNANCE_GATEWAY_DATA_CLASS: str = os.getenv(
+        "GOVERNANCE_GATEWAY_DATA_CLASS", "internal"
+    )
+
     # Data paths
     PRODUCTS_PATH: str = os.getenv("PRODUCTS_PATH", "data/products.json")
     POLICIES_DIR: str = os.getenv("POLICIES_DIR", "data/policies")

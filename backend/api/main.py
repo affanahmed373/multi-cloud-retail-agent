@@ -24,6 +24,7 @@ from backend.app.llm_providers import (
     BedrockLLMProvider,
     DeepSeekLLMProvider,
     GeminiLLMProvider,
+    GovernanceGatewayLLMProvider,
     MockLLMProvider,
     OpenAILLMProvider,
     VertexLLMProvider,
@@ -94,9 +95,17 @@ def _make_llm(provider_type: str):
             project_id=config.VERTEX_PROJECT_ID,
             location=config.VERTEX_LOCATION,
         )
+    if provider_type == "gateway":
+        return GovernanceGatewayLLMProvider(
+            base_url=config.GOVERNANCE_GATEWAY_URL,
+            model=config.GOVERNANCE_GATEWAY_MODEL,
+            caller=config.GOVERNANCE_GATEWAY_CALLER,
+            environment=config.GOVERNANCE_GATEWAY_ENVIRONMENT,
+            data_class=config.GOVERNANCE_GATEWAY_DATA_CLASS,
+        )
     raise ValueError(
         f"Unknown provider: {provider_type}. "
-        "Choose mock, openai, deepseek, gemini, vertex, or bedrock."
+        "Choose mock, openai, deepseek, gemini, vertex, bedrock, or gateway."
     )
 
 
